@@ -1,0 +1,195 @@
+﻿using Business.base_class;
+using Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Business.object_class
+{
+    /*
+     * {
+  "Token": {
+    "Key": "blablabla"
+  },
+  "IdCustomer": 1,
+  "Detail": [
+    {
+      "IdCommodity": 1,
+      "Amount": 100,
+      "Price": 890
+    },
+    {
+      "IdCommodity": 1,
+      "Amount": 100,
+      "Price": 890
+    }
+  ]
+}
+     */
+    public class cls_order_header:base_class.business_base_class
+    {
+        long idCompany;
+        long idCustomer;
+        DateTime date;
+        bool transmited;
+        List<cls_order_detail> detail;
+        string customerName;
+        string customerCUIT;
+
+        public long IdCompany { get => idCompany; set => idCompany = value; }
+        public DateTime Date { get => date; set => date = value; }
+        public bool Transmited { get => transmited; set => transmited = value; }
+        public List<cls_order_detail> Detail { get => detail; set => detail = value; }
+        public long IdCustomer { get => idCustomer; set => idCustomer = value; }
+        public string CustomerName { get => customerName; set => customerName = value; }
+        public string CustomerCUIT { get => customerCUIT; set => customerCUIT = value; }
+
+        /// <summary>
+        /// For new orders
+        /// </summary>
+        /// <param name="par_id_company"></param>
+        public cls_order_header(long par_id_company, long par_idCustomer) 
+        {
+            idCustomer = par_idCustomer;
+            idCompany = par_id_company;
+            date = DateTime.Now;
+            transmited = false;
+            detail = new List<cls_order_detail>();
+            Id = 0;
+        }
+
+        public cls_order_header(usp_GetOrders_Result r, int par_idcompany) 
+        {
+            date = r.DATETIME;
+            customerName = r.CUSTOMER;
+            Id = r.ID;
+            detail = cls_order_detail.GetByOrderId(Id,par_idcompany);
+            customerCUIT = r.CUSTOMERCUIT;
+            idCustomer = r.CUSTOMERINTERNALID!=null?r.CUSTOMERINTERNALID.Value:0;
+        }
+
+        public cls_order_header(usp_GetSingleOrder_Result r, long par_company) 
+        {
+            date = r.DATETIME;
+            customerName = r.CUSTOMER;
+            Id = r.ID;
+            detail = cls_order_detail.GetByOrderId(Id, par_company);
+            customerCUIT = r.CUSTOMERCUIT;
+            idCustomer = r.CUSTOMERID.Value;
+        }
+
+        public static List<cls_order_header> GetSingleOrder (long par_idOrder, long par_id_company) 
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_GetSingleOrder_Result> list = msk.usp_GetSingleOrder(par_id_company, par_idOrder).ToList();
+            List<cls_order_header> myList = new List<cls_order_header>();
+            if (list != null && list.Count > 0) 
+            {
+                cls_order_header order = new cls_order_header(list[0], par_id_company);
+                myList.Add(order);
+
+            }
+            return myList;
+
+        }
+
+        public static bool deleteOrder(long idorder) 
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            msk.usp_deleteOrder(idorder);
+            return true;
+        }
+        
+
+        public void InsertDetail(long par_idComodity, decimal par_amount, decimal par_price, bool par_noUnit) 
+        {
+
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_GetUnitByIdComodity_Result> list = msk.usp_GetUnitByIdComodity(par_idComodity).ToList();
+            long idunit = (((list!=null)&&(list.Count>0))&&list[0].IDUNIT!=null)?list[0].IDUNIT.Value:0;
+            Detail.Add(new cls_order_detail(idunit, idCompany, Id, par_idComodity, par_amount, par_price, par_noUnit));
+
+        }
+
+        public void Save() 
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            Id = msk.ups_InsertOrderHeader(IdCompany, IdCustomer).ToList()[0].Value;
+            foreach (cls_order_detail d in detail) 
+            {
+                d.Unit = d.Unit;
+                d.IdHeader = Id;
+                d.save();
+            }
+        }
+
+        public static string GetOrderPlainText(int idcompany)
+        {
+            
+            string response="";
+            try
+            {
+                List<cls_order_header> OrderList = getAll(idcompany);
+                response = "[HEADERS][ENDLINE]";
+
+                foreach (cls_order_header oh in OrderList)
+                {
+                    response += oh.Id + "|" + oh.date.ToString("yyyyMMdd") + "|" + oh.CustomerCUIT + "|" + oh.IdCustomer.ToString() + "|" + oh.CustomerName + "[ENDLINE]";
+
+                }
+
+                response += "[DETAIL][ENDLINE]";
+                foreach (cls_order_header oh in OrderList)
+                {
+                    if (oh.detail != null && oh.detail.Count > 0)
+                    {
+                        foreach (cls_order_detail od in oh.Detail)
+                        {
+                            response += oh.Id.ToString() + "|" + od.InternalCode + "|" + (od.NoUnit == true ? "1" : "0") + "|" + od.Amount.ToString() + "|" + od.Price + "[ENDLINE]";
+                        }
+                    }
+                }
+                response += "[ENDFILE][ENDLINE]";
+            }
+            catch (Exception e) 
+            {
+                response = "";
+                response += e.Message + "\n" + e.StackTrace;
+            }
+            return response;
+
+        }
+
+        public static void TransmitOrders(int idCompany) 
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            msk.TransmitOrder(idCompany);
+        }
+
+        public static List<cls_order_header> getAll(int idcompany) 
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_GetOrders_Result> orderlist = msk.usp_GetOrders(idcompany).ToList();
+            List<cls_order_header> list = new List<cls_order_header>();
+            if (orderlist != null && orderlist.Count > 0)
+            {
+               
+                foreach (usp_GetOrders_Result or in orderlist)
+                {
+                    list.Add(new cls_order_header(or, idcompany));
+                }
+                return list;
+            }
+            else 
+            {
+                return list;
+            }
+
+
+        }
+        
+
+    }
+}

@@ -1,0 +1,724 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MSKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="GetSections" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetUserModules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="InsertPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="iid_comodity" Type="bigint" Mode="In" />
+          <Parameter Name="price" Type="decimal" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SelectIdCompanyByCUIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cuit" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SelectPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="id_Commodity" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="TransmitOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idcompany" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="udp_selectCommodity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="UpdateLoginNoPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idLogin" Type="bigint" Mode="In" />
+          <Parameter Name="login" Type="varchar" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateLoginPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idLogin" Type="bigint" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="Password" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ups_InsertOrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="id_order" Type="bigint" Mode="In" />
+          <Parameter Name="id_commodity" Type="bigint" Mode="In" />
+          <Parameter Name="amount" Type="decimal" Mode="In" />
+          <Parameter Name="id_unit" Type="bigint" Mode="In" />
+          <Parameter Name="price" Type="decimal" Mode="In" />
+          <Parameter Name="nounit" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="ups_InsertOrderHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="id_customer" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_CheckLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_CheckToken" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="token" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="usp_deleteOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idorder" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetAllLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_GetAllLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetCustomerBySystemID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SystemId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_GetLoginById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetLoginByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="usp_GetLoginIdByToken" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="token" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="usp_GetOrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="id_order" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idCompany" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetRolesByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LoginId" Type="bigint" Mode="In" />
+          <Parameter Name="companyid" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetSectionByIdModule" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idModule" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetSingleOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="id_order" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetUnitByIdComodity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idComodity" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_InsertCommodity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="internal_code" Type="varchar" Mode="In" />
+          <Parameter Name="line" Type="varchar" Mode="In" />
+          <Parameter Name="heading" Type="varchar" Mode="In" />
+          <Parameter Name="unit_of_meassure" Type="varchar" Mode="In" />
+          <Parameter Name="average_weight" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="usp_InsertCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_system" Type="bigint" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="address" Type="varchar" Mode="In" />
+          <Parameter Name="zipcode" Type="varchar" Mode="In" />
+          <Parameter Name="city" Type="varchar" Mode="In" />
+          <Parameter Name="iva" Type="varchar" Mode="In" />
+          <Parameter Name="cuit" Type="varchar" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+          <Parameter Name="seller" Type="varchar" Mode="In" />
+          <Parameter Name="zone" Type="varchar" Mode="In" />
+          <Parameter Name="route" Type="varchar" Mode="In" />
+          <Parameter Name="custommerType" Type="varchar" Mode="In" />
+          <Parameter Name="activity" Type="varchar" Mode="In" />
+          <Parameter Name="branch" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_insertLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login" Type="varchar" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar(max)" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+          <Parameter Name="idCustomer" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_InsertToken" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_login" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_LinkUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LoginId" Type="bigint" Mode="In" />
+          <Parameter Name="CompanyId" Type="bigint" Mode="In" />
+          <Parameter Name="RoleId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_selectCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_selectSellerNyIdLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_UnLinkUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LoginId" Type="bigint" Mode="In" />
+          <Parameter Name="CompanyId" Type="bigint" Mode="In" />
+          <Parameter Name="RoleId" Type="bigint" Mode="In" />
+        </Function>
+        <EntityContainer Name="MSKModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MSKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MSKEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="GetSections" ReturnType="Collection(MSKModel.GetSections_Result)" />
+          <FunctionImport Name="GetUserModules" ReturnType="Collection(MSKModel.GetUserModules_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateLoginNoPassword">
+            <Parameter Name="idLogin" Mode="In" Type="Int64" />
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateLoginPassword">
+            <Parameter Name="idLogin" Mode="In" Type="Int64" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="Password" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ups_InsertOrderDetail">
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="id_order" Mode="In" Type="Int64" />
+            <Parameter Name="id_commodity" Mode="In" Type="Int64" />
+            <Parameter Name="amount" Mode="In" Type="Decimal" />
+            <Parameter Name="id_unit" Mode="In" Type="Int64" />
+            <Parameter Name="price" Mode="In" Type="Decimal" />
+            <Parameter Name="nounit" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="ups_InsertOrderHeader" ReturnType="Collection(Int64)">
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="id_customer" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_CheckLogin" ReturnType="Collection(Boolean)">
+            <Parameter Name="user" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_CheckToken" ReturnType="Collection(Boolean)">
+          <Parameter Name="token" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_deleteOrder">
+          <Parameter Name="idorder" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetAllLogin" ReturnType="Collection(MSKModel.usp_GetAllLogin_Result)" />
+          <FunctionImport Name="usp_GetAllLogins" ReturnType="Collection(MSKModel.usp_GetAllLogins_Result)">
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetLogin" ReturnType="Collection(Int64)">
+            <Parameter Name="user" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetLoginById" ReturnType="Collection(MSKModel.usp_GetLoginById_Result)">
+          <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetLoginByName" ReturnType="Collection(MSKModel.usp_GetLoginByName_Result)">
+          <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetLoginIdByToken" ReturnType="Collection(Int64)">
+          <Parameter Name="token" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetRoles" ReturnType="Collection(MSKModel.usp_GetRoles_Result)">
+          <Parameter Name="idCompany" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetRolesByUserId" ReturnType="Collection(MSKModel.usp_GetRolesByUserId_Result)">
+            <Parameter Name="LoginId" Mode="In" Type="Int64" />
+            <Parameter Name="companyid" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetSectionByIdModule" ReturnType="Collection(MSKModel.usp_GetSectionByIdModule_Result)">
+          <Parameter Name="idModule" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetSingleOrder" ReturnType="Collection(MSKModel.usp_GetSingleOrder_Result)">
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="id_order" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetUnitByIdComodity" ReturnType="Collection(MSKModel.usp_GetUnitByIdComodity_Result)">
+          <Parameter Name="idComodity" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertCommodity">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="internal_code" Mode="In" Type="String" />
+            <Parameter Name="line" Mode="In" Type="String" />
+            <Parameter Name="heading" Mode="In" Type="String" />
+            <Parameter Name="unit_of_meassure" Mode="In" Type="String" />
+            <Parameter Name="average_weight" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertCustomer">
+            <Parameter Name="id_system" Mode="In" Type="Int64" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="address" Mode="In" Type="String" />
+            <Parameter Name="zipcode" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="iva" Mode="In" Type="String" />
+            <Parameter Name="cuit" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="seller" Mode="In" Type="String" />
+            <Parameter Name="zone" Mode="In" Type="String" />
+            <Parameter Name="route" Mode="In" Type="String" />
+            <Parameter Name="custommerType" Mode="In" Type="String" />
+            <Parameter Name="activity" Mode="In" Type="String" />
+            <Parameter Name="branch" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_insertLogin" ReturnType="Collection(Int64)">
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="idCustomer" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertToken" ReturnType="Collection(String)">
+          <Parameter Name="id_login" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_LinkUserRole">
+            <Parameter Name="LoginId" Mode="In" Type="Int64" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int64" />
+            <Parameter Name="RoleId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_selectCustomer" ReturnType="Collection(MSKModel.usp_selectCustomer_Result)">
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_selectSellerNyIdLogin" ReturnType="Collection(Int64)">
+          <Parameter Name="UserId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_UnLinkUserRole">
+            <Parameter Name="LoginId" Mode="In" Type="Int64" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int64" />
+            <Parameter Name="RoleId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetCustomerBySystemID" ReturnType="Collection(MSKModel.usp_GetCustomerBySystemID_Result)">
+          <Parameter Name="SystemId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="udp_selectCommodity" ReturnType="Collection(MSKModel.udp_selectCommodity_Result)">
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetOrders" ReturnType="Collection(MSKModel.usp_GetOrders_Result)">
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SelectIdCompanyByCUIT" ReturnType="Collection(Int64)">
+          <Parameter Name="cuit" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertPrice">
+            <Parameter Name="iid_comodity" Mode="In" Type="Int64" />
+            <Parameter Name="price" Mode="In" Type="Decimal" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="TransmitOrder">
+          <Parameter Name="idcompany" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetOrderDetail" ReturnType="Collection(MSKModel.usp_GetOrderDetail_Result)">
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="id_order" Mode="In" Type="Int64" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetSections_Result">
+          <Property Type="Int64" Name="SECTIONID" Nullable="false" />
+          <Property Type="String" Name="SECTIONNAME" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="MODULEID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUserModules_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="icon" Nullable="false" MaxLength="20" />
+          <Property Type="Int64" Name="id_permission" Nullable="false" />
+          <Property Type="Int64" Name="show_order" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetAllLogin_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="login" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="confirmed_email" Nullable="false" />
+          <Property Type="String" Name="password" Nullable="false" />
+          <Property Type="String" Name="phone" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="acces_failed_count" Nullable="false" />
+          <Property Type="Boolean" Name="locked" Nullable="false" />
+          <Property Type="Boolean" Name="suspended" Nullable="false" />
+          <Property Type="Int64" Name="Customer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetAllLogins_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EMAIL" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PHONE" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="usp_GetLoginById_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="login" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="confirmed_email" Nullable="false" />
+          <Property Type="String" Name="password" Nullable="false" />
+          <Property Type="String" Name="phone" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="acces_failed_count" Nullable="false" />
+          <Property Type="Boolean" Name="locked" Nullable="false" />
+          <Property Type="Boolean" Name="suspended" Nullable="false" />
+          <Property Type="Int64" Name="Customer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetLoginByName_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="login" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="confirmed_email" Nullable="false" />
+          <Property Type="String" Name="password" Nullable="false" />
+          <Property Type="String" Name="phone" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="acces_failed_count" Nullable="false" />
+          <Property Type="Boolean" Name="locked" Nullable="false" />
+          <Property Type="Boolean" Name="suspended" Nullable="false" />
+          <Property Type="Int64" Name="Customer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetRoles_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="usp_GetRolesByUserId_Result">
+          <Property Type="Int64" Name="IDROLE" Nullable="true" />
+          <Property Type="String" Name="NAME" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="usp_GetSectionByIdModule_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="usp_GetSingleOrder_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetUnitByIdComodity_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UNIT" Nullable="true" MaxLength="20" />
+          <Property Type="Int64" Name="IDUNIT" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_selectCustomer_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="Int64" Name="id_system" Nullable="false" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="address" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CUIT" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="phone" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="balance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="ZIPCODE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CITY" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IVA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SELLER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ZONE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ROUTE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TYPE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACTIVITY" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BRANCH" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="usp_GetCustomerBySystemID_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="Int64" Name="id_system" Nullable="false" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="address" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="zipcode" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="city" Nullable="false" />
+          <Property Type="Int64" Name="IVA" Nullable="false" />
+          <Property Type="String" Name="CUIT" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="phone" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="seller" Nullable="false" />
+          <Property Type="Int64" Name="zone" Nullable="false" />
+          <Property Type="Int64" Name="route" Nullable="false" />
+          <Property Type="Int64" Name="custommer_type" Nullable="false" />
+          <Property Type="Int64" Name="activity" Nullable="false" />
+          <Property Type="Int64" Name="branch" Nullable="false" />
+          <Property Type="Decimal" Name="balance" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="udp_selectCommodity_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="internal_code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LINE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="HEADING" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UNIT_OF_MEASUREMENT" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="average_weight" Nullable="false" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="PRICE" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="usp_GetOrders_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetOrderDetail_Result">
+          <Property Type="Decimal" Name="AMOUNT" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="PRICE" Nullable="false" Precision="18" Scale="3" />
+          <Property Type="Boolean" Name="NOUNIT" Nullable="true" />
+          <Property Type="Int64" Name="IDCOMMODITY" Nullable="false" />
+          <Property Type="String" Name="INTERNALCODE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UNIT" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="AVERAGEWEIGHT" Nullable="true" Precision="18" Scale="3" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MSKModelStoreContainer" CdmEntityContainer="MSKEntities" >
+          <FunctionImportMapping FunctionImportName="GetSections" FunctionName="MSKModel.Store.GetSections">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.GetSections_Result">
+                <ScalarProperty Name="SECTIONID" ColumnName="SECTIONID" />
+                <ScalarProperty Name="SECTIONNAME" ColumnName="SECTIONNAME" />
+                <ScalarProperty Name="MODULEID" ColumnName="MODULEID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserModules" FunctionName="MSKModel.Store.GetUserModules">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.GetUserModules_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="id_permission" ColumnName="id_permission" />
+                <ScalarProperty Name="show_order" ColumnName="show_order" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateLoginNoPassword" FunctionName="MSKModel.Store.UpdateLoginNoPassword" />
+          <FunctionImportMapping FunctionImportName="UpdateLoginPassword" FunctionName="MSKModel.Store.UpdateLoginPassword" />
+          <FunctionImportMapping FunctionImportName="ups_InsertOrderDetail" FunctionName="MSKModel.Store.ups_InsertOrderDetail" />
+          <FunctionImportMapping FunctionImportName="ups_InsertOrderHeader" FunctionName="MSKModel.Store.ups_InsertOrderHeader" />
+          <FunctionImportMapping FunctionImportName="usp_CheckLogin" FunctionName="MSKModel.Store.usp_CheckLogin" />
+          <FunctionImportMapping FunctionImportName="usp_CheckToken" FunctionName="MSKModel.Store.usp_CheckToken" />
+          <FunctionImportMapping FunctionImportName="usp_deleteOrder" FunctionName="MSKModel.Store.usp_deleteOrder" />
+          <FunctionImportMapping FunctionImportName="usp_GetAllLogin" FunctionName="MSKModel.Store.usp_GetAllLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllLogin_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="confirmed_email" ColumnName="confirmed_email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="acces_failed_count" ColumnName="acces_failed_count" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="suspended" ColumnName="suspended" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetAllLogins" FunctionName="MSKModel.Store.usp_GetAllLogins">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllLogins_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetLogin" FunctionName="MSKModel.Store.usp_GetLogin" />
+          <FunctionImportMapping FunctionImportName="usp_GetLoginById" FunctionName="MSKModel.Store.usp_GetLoginById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetLoginById_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="confirmed_email" ColumnName="confirmed_email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="acces_failed_count" ColumnName="acces_failed_count" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="suspended" ColumnName="suspended" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetLoginByName" FunctionName="MSKModel.Store.usp_GetLoginByName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetLoginByName_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="confirmed_email" ColumnName="confirmed_email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="acces_failed_count" ColumnName="acces_failed_count" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="suspended" ColumnName="suspended" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetLoginIdByToken" FunctionName="MSKModel.Store.usp_GetLoginIdByToken" />
+          <FunctionImportMapping FunctionImportName="usp_GetRoles" FunctionName="MSKModel.Store.usp_GetRoles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetRoles_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetRolesByUserId" FunctionName="MSKModel.Store.usp_GetRolesByUserId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetRolesByUserId_Result">
+                <ScalarProperty Name="IDROLE" ColumnName="IDROLE" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetSectionByIdModule" FunctionName="MSKModel.Store.usp_GetSectionByIdModule">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetSectionByIdModule_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetSingleOrder" FunctionName="MSKModel.Store.usp_GetSingleOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetSingleOrder_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+                <ScalarProperty Name="CUSTOMERID" ColumnName="CUSTOMERID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetUnitByIdComodity" FunctionName="MSKModel.Store.usp_GetUnitByIdComodity">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetUnitByIdComodity_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="IDUNIT" ColumnName="IDUNIT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_InsertCommodity" FunctionName="MSKModel.Store.usp_InsertCommodity" />
+          <FunctionImportMapping FunctionImportName="usp_InsertCustomer" FunctionName="MSKModel.Store.usp_InsertCustomer" />
+          <FunctionImportMapping FunctionImportName="usp_insertLogin" FunctionName="MSKModel.Store.usp_insertLogin" />
+          <FunctionImportMapping FunctionImportName="usp_InsertToken" FunctionName="MSKModel.Store.usp_InsertToken" />
+          <FunctionImportMapping FunctionImportName="usp_LinkUserRole" FunctionName="MSKModel.Store.usp_LinkUserRole" />
+          <FunctionImportMapping FunctionImportName="usp_selectCustomer" FunctionName="MSKModel.Store.usp_selectCustomer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_selectCustomer_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_system" ColumnName="id_system" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="ZIPCODE" ColumnName="ZIPCODE" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="SELLER" ColumnName="SELLER" />
+                <ScalarProperty Name="ZONE" ColumnName="ZONE" />
+                <ScalarProperty Name="ROUTE" ColumnName="ROUTE" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="ACTIVITY" ColumnName="ACTIVITY" />
+                <ScalarProperty Name="BRANCH" ColumnName="BRANCH" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_selectSellerNyIdLogin" FunctionName="MSKModel.Store.usp_selectSellerNyIdLogin" />
+          <FunctionImportMapping FunctionImportName="usp_UnLinkUserRole" FunctionName="MSKModel.Store.usp_UnLinkUserRole" />
+          <FunctionImportMapping FunctionImportName="usp_GetCustomerBySystemID" FunctionName="MSKModel.Store.usp_GetCustomerBySystemID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetCustomerBySystemID_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_system" ColumnName="id_system" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="zipcode" ColumnName="zipcode" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="seller" ColumnName="seller" />
+                <ScalarProperty Name="zone" ColumnName="zone" />
+                <ScalarProperty Name="route" ColumnName="route" />
+                <ScalarProperty Name="custommer_type" ColumnName="custommer_type" />
+                <ScalarProperty Name="activity" ColumnName="activity" />
+                <ScalarProperty Name="branch" ColumnName="branch" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="udp_selectCommodity" FunctionName="MSKModel.Store.udp_selectCommodity">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.udp_selectCommodity_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="internal_code" ColumnName="internal_code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="HEADING" ColumnName="HEADING" />
+                <ScalarProperty Name="UNIT_OF_MEASUREMENT" ColumnName="UNIT_OF_MEASUREMENT" />
+                <ScalarProperty Name="average_weight" ColumnName="average_weight" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetOrders" FunctionName="MSKModel.Store.usp_GetOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetOrders_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SelectIdCompanyByCUIT" FunctionName="MSKModel.Store.SelectIdCompanyByCUIT" />
+          <FunctionImportMapping FunctionImportName="InsertPrice" FunctionName="MSKModel.Store.InsertPrice" />
+          <FunctionImportMapping FunctionImportName="TransmitOrder" FunctionName="MSKModel.Store.TransmitOrder" />
+          <FunctionImportMapping FunctionImportName="usp_GetOrderDetail" FunctionName="MSKModel.Store.usp_GetOrderDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetOrderDetail_Result">
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="NOUNIT" ColumnName="NOUNIT" />
+                <ScalarProperty Name="IDCOMMODITY" ColumnName="IDCOMMODITY" />
+                <ScalarProperty Name="INTERNALCODE" ColumnName="INTERNALCODE" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="AVERAGEWEIGHT" ColumnName="AVERAGEWEIGHT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

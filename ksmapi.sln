@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ksmapi", "ksmapi\ksmapi.csproj", "{4A268C30-604B-4E02-914B-79EFD32777CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{1DA04016-D9F7-489F-9D32-B2D03B50A6CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{F99A21AC-D143-4425-A0D9-3E394901CC7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A268C30-604B-4E02-914B-79EFD32777CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A268C30-604B-4E02-914B-79EFD32777CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A268C30-604B-4E02-914B-79EFD32777CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A268C30-604B-4E02-914B-79EFD32777CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA04016-D9F7-489F-9D32-B2D03B50A6CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA04016-D9F7-489F-9D32-B2D03B50A6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA04016-D9F7-489F-9D32-B2D03B50A6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA04016-D9F7-489F-9D32-B2D03B50A6CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F99A21AC-D143-4425-A0D9-3E394901CC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F99A21AC-D143-4425-A0D9-3E394901CC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F99A21AC-D143-4425-A0D9-3E394901CC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F99A21AC-D143-4425-A0D9-3E394901CC7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B143BE8-2E87-4724-B09E-084BA7CDF89E}
+	EndGlobalSection
+EndGlobal
