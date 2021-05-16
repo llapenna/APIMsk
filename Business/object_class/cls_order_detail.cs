@@ -63,6 +63,18 @@ namespace Business.object_class
 
         }
 
+        public cls_order_detail(usp_GetOrderDetailByOrderId_Result r)
+        {
+            idComodity = r.IDCOMMODITY;
+            amount = r.AMOUNT;
+            commodityName = r.NAME;
+            price = r.PRICE;
+            noUnit = r.NOUNIT ?? false;
+            internalCode = r.INTERNALCODE;
+            unit = r.UNIT;
+            avgWeight = r.AVERAGEWEIGHT;
+        }
+
         public static List<cls_order_detail> GetByOrderId(long orderid, long id_company) 
         {
             MSKEntities E = cls_static_MksModel.GetEntity();
@@ -82,6 +94,21 @@ namespace Business.object_class
             }
         }
 
+        public static List<cls_order_detail> Get(long orderid)
+        {
+            MSKEntities msk = cls_static_MksModel.GetEntity();
+            List<usp_GetOrderDetailByOrderId_Result> r = msk.usp_GetOrderDetailByOrderId(orderid).ToList();
+
+            List<cls_order_detail> detailList = new List<cls_order_detail>();
+
+            if (r != null && r.Count > 0)
+            {
+                foreach (usp_GetOrderDetailByOrderId_Result detail in r)
+                    detailList.Add(new cls_order_detail(detail));
+            }
+
+            return detailList;
+        }
 
         public void save() 
         {

@@ -80,6 +80,24 @@ namespace Business.object_class
             idCustomer = r.CUSTOMERID.Value;
         }
 
+        public cls_order_header(usp_GetAllOrdersByUser_Result r)
+        {
+            Id = r.ID;
+            date = r.DATETIME;
+            detail = cls_order_detail.Get(r.ID);
+            customerName = r.CUSTOMER;
+            customerCUIT = r.CUSTOMERCUIT;
+        }
+
+        public cls_order_header(usp_GetAllOrdersByCompany_Result r)
+        {
+            Id = r.ID;
+            date = r.DATETIME;
+            detail = cls_order_detail.Get(r.ID);
+            customerName = r.CUSTOMER;
+            customerCUIT = r.CUSTOMERCUIT;
+        }
+
         public static List<cls_order_header> GetSingleOrder (long par_idOrder, long par_id_company) 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
@@ -168,17 +186,16 @@ namespace Business.object_class
             msk.TransmitOrder(idCompany);
         }
 
-        public static List<cls_order_header> getAll(int idcompany) 
+        public static List<cls_order_header> getAll(int loginid) 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
-            List<usp_GetOrders_Result> orderlist = msk.usp_GetOrders(idcompany).ToList();
+            List<usp_GetOrders_Result> orderlist = msk.usp_GetOrders(loginid).ToList();
             List<cls_order_header> list = new List<cls_order_header>();
             if (orderlist != null && orderlist.Count > 0)
-            {
-               
+            {               
                 foreach (usp_GetOrders_Result or in orderlist)
                 {
-                    list.Add(new cls_order_header(or, idcompany));
+                    list.Add(new cls_order_header(or, loginid));
                 }
                 return list;
             }
@@ -188,6 +205,38 @@ namespace Business.object_class
             }
 
 
+        }
+
+        public static List<cls_order_header> GetAllByUserId(long userid)
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_GetAllOrdersByUser_Result> r = msk.usp_GetAllOrdersByUser(userid).ToList();
+
+            List<cls_order_header> orders = new List<cls_order_header>();
+
+            if (r != null && r.Count > 0)
+            {
+                foreach (usp_GetAllOrdersByUser_Result order in r)
+                    orders.Add(new cls_order_header(order));
+            }
+
+            return orders;
+        }
+
+        public static List<cls_order_header> GetAllByCompanyId(long companyid)
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_GetAllOrdersByCompany_Result> r = msk.usp_GetAllOrdersByCompany(companyid).ToList();
+
+            List<cls_order_header> orders = new List<cls_order_header>();
+
+            if (r != null && r.Count > 0)
+            {
+                foreach (usp_GetAllOrdersByCompany_Result order in r)
+                    orders.Add(new cls_order_header(order));
+            }
+
+            return orders;
         }
         
 

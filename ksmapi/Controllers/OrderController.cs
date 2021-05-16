@@ -11,6 +11,8 @@ namespace ksmapi.Controllers
 {
     public class OrderController : ApiController
     {
+
+        // TODO: Cambiar id_company por id_user
         [HttpPost]
         public IHttpActionResult Insert([FromBody] Business.base_class.order_request r) 
         {
@@ -136,11 +138,28 @@ namespace ksmapi.Controllers
         public IHttpActionResult GetAll([FromBody] business_base_class c) 
         {
             try { 
+
             if (cls_token.validate(c))
             {
                 long loginid = cls_token.GetLoginId(c.Token.Key).Value;
-                long idcompany = cls_login.GetCompanyIdByIdLogin(loginid);
-                List<cls_order_header> orderlist = cls_order_header.getAll(int.Parse(idcompany.ToString()));
+
+                // Obtenemos la informacion del usuario que realiza la consulta
+                cls_login user = cls_login.Get(loginid);
+
+                List<cls_order_header> orderlist = new List<cls_order_header>();
+
+                // Muestra todos los pedidos de la compañia
+                if (user.Roles[0].Name == "Administrator")
+                {
+                    long idcompany = cls_login.GetCompanyIdByIdLogin(loginid);
+                    orderlist = cls_order_header.GetAllByCompanyId(idcompany);
+                       
+                }
+                // Muestra todos los pedidos del usuario
+                else
+                {
+                    orderlist = cls_order_header.GetAllByUserId(user.Id);
+                }
                 return Ok(orderlist);
 
             }
@@ -148,6 +167,7 @@ namespace ksmapi.Controllers
             {
                 return Unauthorized();
             }
+
             }
             catch (Exception e)
             {

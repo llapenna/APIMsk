@@ -69,6 +69,15 @@ namespace Business.object_class
             //roles = cls_rol.
         }
 
+        public cls_login(usp_GetLoginById_Result r)
+        {
+            user = r.login;
+            id = r.id;
+            phone = r.phone;
+            mail = r.email;
+            roles = GetRolesById(r.id);
+        }
+
         public static long GetCompanyIdByIdLogin(long idlogin) 
         {
             return cls_static_MksModel.GetEntity().usp_GetLoginById(idlogin).ToList()[0].id_company;
@@ -148,8 +157,36 @@ namespace Business.object_class
             
         }
 
+        public static cls_login Get(long id)
+        {
+            MSKEntities msk = cls_static_MksModel.GetEntity();
+            ObjectResult<usp_GetLoginById_Result>  r = msk.usp_GetLoginById(id);
 
-        
+            cls_login user = null;
 
+            if (r != null && r.Count() > 0)
+            {
+                // Obtenemos el primer elemento que deberia ser el usuario seleccionado
+                user = new cls_login(r.First());
+            }
+
+            return user;
+        }
+
+        static List<cls_rol> GetRolesById(long loginid)
+        {
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_GetRolesByLoginId_Result> r = msk.usp_GetRolesByLoginId(loginid).ToList();
+
+            List<cls_rol> rolelist = new List<cls_rol>();
+
+            if (r != null && r.Count > 0)
+            {
+                foreach (usp_GetRolesByLoginId_Result rol in r)
+                    rolelist.Add(new cls_rol(rol));
+            }
+
+            return rolelist;
+        }
     }
 }

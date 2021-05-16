@@ -25,6 +25,12 @@ namespace Business.object_class
 
         }
 
+        public cls_rol(usp_GetRolesByLoginId_Result r)
+        {
+            Id = r.IDROLE;
+            Name = r.NAME;
+        }
+
         public static filter_paged_response GetRoles(long idcompany) 
         {
             MSKEntities e = Data.singleton.cls_static_MksModel.GetEntity();

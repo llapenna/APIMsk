@@ -143,8 +143,8 @@ namespace Business.object_class
                                 (route == string.Empty || route == null ? "" : route),
                                 (custommerType == string.Empty || custommerType == null ? "" : custommerType),
                                 (activity == string.Empty || activity == null ? "" : activity),
-                                (branch == string.Empty || branch == null ? "" : branch)
-                                );
+                                (branch == string.Empty || branch == null ? "" : branch),
+                                balance);
         }
 
         public static filter_paged_response GetCustomers(long id_company, filter_request filter)
