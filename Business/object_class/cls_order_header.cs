@@ -32,6 +32,7 @@ namespace Business.object_class
     {
         long idCompany;
         long idCustomer;
+        long idUser;
         DateTime date;
         bool transmited;
         List<cls_order_detail> detail;
@@ -45,15 +46,17 @@ namespace Business.object_class
         public long IdCustomer { get => idCustomer; set => idCustomer = value; }
         public string CustomerName { get => customerName; set => customerName = value; }
         public string CustomerCUIT { get => customerCUIT; set => customerCUIT = value; }
+        public long IdUser { get => idUser; set => idUser = value; }
 
         /// <summary>
         /// For new orders
         /// </summary>
         /// <param name="par_id_company"></param>
-        public cls_order_header(long par_id_company, long par_idCustomer) 
+        public cls_order_header(long par_id_user, long par_id_company, long par_idCustomer) 
         {
             idCustomer = par_idCustomer;
             idCompany = par_id_company;
+            idUser = par_id_user;
             date = DateTime.Now;
             transmited = false;
             detail = new List<cls_order_detail>();
@@ -134,7 +137,7 @@ namespace Business.object_class
         public void Save() 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
-            Id = msk.ups_InsertOrderHeader(IdCompany, IdCustomer).ToList()[0].Value;
+            Id = msk.ups_InsertOrderHeader(IdUser, IdCustomer,IdCompany).ToList()[0].Value;
             foreach (cls_order_detail d in detail) 
             {
                 d.Unit = d.Unit;

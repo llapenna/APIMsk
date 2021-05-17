@@ -50,6 +50,7 @@
         <Function Name="ups_InsertOrderHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_user" Type="bigint" Mode="In" />
           <Parameter Name="id_customer" Type="bigint" Mode="In" />
+          <Parameter Name="id_company" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_CheckLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="user" Type="varchar" Mode="In" />
@@ -325,10 +326,6 @@
           <FunctionImport Name="usp_GetOrders" ReturnType="Collection(MSKModel.usp_GetOrders_Result)">
           <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="ups_InsertOrderHeader" ReturnType="Collection(Int64)">
-            <Parameter Name="id_user" Mode="In" Type="Int64" />
-            <Parameter Name="id_customer" Mode="In" Type="Int64" />
-          </FunctionImport>
           <FunctionImport Name="usp_GetAllOrders" ReturnType="Collection(MSKModel.usp_GetAllOrders_Result)" />
           <FunctionImport Name="usp_GetRolesByLoginId" ReturnType="Collection(MSKModel.usp_GetRolesByLoginId_Result)">
           <Parameter Name="id_login" Mode="In" Type="Int64" />
@@ -337,10 +334,15 @@
           <Parameter Name="id_order" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetAllOrdersByCompany" ReturnType="Collection(MSKModel.usp_GetAllOrdersByCompany_Result)">
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetAllOrdersByUser" ReturnType="Collection(MSKModel.usp_GetAllOrdersByUser_Result)">
+          <Parameter Name="id_user" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ups_InsertOrderHeader" ReturnType="Collection(Int64)">
             <Parameter Name="id_user" Mode="In" Type="Int64" />
+            <Parameter Name="id_customer" Mode="In" Type="Int64" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetSections_Result">
@@ -763,7 +765,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ups_InsertOrderHeader" FunctionName="MSKModel.Store.ups_InsertOrderHeader" />
           <FunctionImportMapping FunctionImportName="usp_GetAllOrders" FunctionName="MSKModel.Store.usp_GetAllOrders">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrders_Result">
@@ -822,6 +823,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ups_InsertOrderHeader" FunctionName="MSKModel.Store.ups_InsertOrderHeader" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

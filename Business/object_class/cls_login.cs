@@ -20,6 +20,7 @@ namespace Business.object_class
         private List<cls_rol> roles;
         private long idCustomer=0;
         private cls_customer customer = null;
+        private long seller = 0;
 
         public string User { get => user; set => user = value; }
         public string Pass { get => pass; set => pass = value; }
@@ -29,6 +30,7 @@ namespace Business.object_class
         public List<cls_rol> Roles { get => roles; set => roles = value; }
         public long IdCustomer { get => idCustomer; set => idCustomer = value; }
         public cls_customer Customer { get => customer; set => customer = value; }
+        public long Seller { get => seller; set => seller = value; }
 
         public cls_login() { }
 

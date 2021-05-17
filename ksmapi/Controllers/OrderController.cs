@@ -20,11 +20,12 @@ namespace ksmapi.Controllers
             {
                 if (cls_token.validate(r))
                 {
+                    
                     long loginid = cls_token.GetLoginId(r.Token.Key).Value;
                     long idcompany = cls_login.GetCompanyIdByIdLogin(loginid);
                     if (r.Detail != null && r.Detail.Count > 0)
                     {
-                        cls_order_header oh = new cls_order_header(idcompany, r.IdCustomer);
+                        cls_order_header oh = new cls_order_header(loginid ,idcompany, r.IdCustomer);
 
                         foreach (order_detail_request det in r.Detail)
                         {
@@ -61,7 +62,7 @@ namespace ksmapi.Controllers
                 
                 if (r.Detail != null && r.Detail.Count > 0)
                 {
-                    cls_order_header oh = new cls_order_header(idcompany, idcustomer);
+                    cls_order_header oh = new cls_order_header(loginid, idcompany, idcustomer);
                     
                     foreach (cls_temporalUpdatePedidoDetail det in r.Detail)
                     {
@@ -85,7 +86,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e)
             {
-                return InternalServerError(e);
+                return Ok(e);
             }
         }
 
@@ -149,7 +150,7 @@ namespace ksmapi.Controllers
                 List<cls_order_header> orderlist = new List<cls_order_header>();
 
                 // Muestra todos los pedidos de la compañia
-                if (user.Roles[0].Name == "Administrator")
+                if (user.Roles[0].Name == "Administrator" || user.Roles[0].Name == "Administrador")
                 {
                     long idcompany = cls_login.GetCompanyIdByIdLogin(loginid);
                     orderlist = cls_order_header.GetAllByCompanyId(idcompany);
@@ -171,7 +172,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e)
             {
-                return InternalServerError(e);
+                return Ok(e);
             }
         }
     }

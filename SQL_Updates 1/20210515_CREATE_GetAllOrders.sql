@@ -12,7 +12,7 @@ SELECT
 	c.name as CUSTOMER,
 	c.CUIT as CUSTOMERCUIT,
 	c.id_system as CUSTOMERINTERNALID,
-	id_company as IDCOMPANY
+	c.id_company as IDCOMPANY
 FROM order_header header
 	LEFT JOIN customer c
 		ON c.id = header.id_customer
