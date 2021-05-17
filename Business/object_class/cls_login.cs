@@ -99,7 +99,7 @@ namespace Business.object_class
                     resp.Debug.Add("contiene roles");
                 }
 
-                long intres = msk.usp_insertLogin(l.User, par_company, l.Mail, l.pass, l.phone, l.IdCustomer).ToList()[0].Value;
+                long intres = msk.usp_insertLogin(l.User, par_company, l.Mail, l.pass, l.phone, l.IdCustomer, l.Seller).ToList()[0].Value;
                 resp.Debug.Add("Usuario creado id:" + intres.ToString());
                 if (intres != -1)
                 {

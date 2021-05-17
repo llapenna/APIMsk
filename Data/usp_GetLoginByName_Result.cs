@@ -24,5 +24,6 @@ namespace Data
         public bool locked { get; set; }
         public bool suspended { get; set; }
         public Nullable<long> Customer { get; set; }
+        public Nullable<long> seller { get; set; }
     }
 }
