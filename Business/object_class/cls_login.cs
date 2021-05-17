@@ -157,17 +157,17 @@ namespace Business.object_class
             
         }
 
-        public static cls_login Get(long id)
+        public static cls_login Get(long userid)
         {
             MSKEntities msk = cls_static_MksModel.GetEntity();
-            ObjectResult<usp_GetLoginById_Result>  r = msk.usp_GetLoginById(id);
+            List<usp_GetLoginById_Result>  r = msk.usp_GetLoginById(userid).ToList();
 
             cls_login user = null;
 
-            if (r != null && r.Count() > 0)
+            if (r != null && r.Count > 0)
             {
                 // Obtenemos el primer elemento que deberia ser el usuario seleccionado
-                user = new cls_login(r.First());
+                user = new cls_login(r[0]);
             }
 
             return user;

@@ -27,8 +27,6 @@ public partial class usp_GetAllOrdersByUser_Result
 
     public Nullable<long> CUSTOMERINTERNALID { get; set; }
 
-    public Nullable<long> IDCOMPANY { get; set; }
-
 }
 
 }

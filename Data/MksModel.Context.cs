@@ -703,30 +703,6 @@ public partial class MSKEntities : DbContext
     }
 
 
-    public virtual ObjectResult<usp_GetAllOrdersByCompany_Result> usp_GetAllOrdersByCompany(Nullable<long> id_company)
-    {
-
-        var id_companyParameter = id_company.HasValue ?
-            new ObjectParameter("id_company", id_company) :
-            new ObjectParameter("id_company", typeof(long));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByCompany_Result>("usp_GetAllOrdersByCompany", id_companyParameter);
-    }
-
-
-    public virtual ObjectResult<usp_GetAllOrdersByUser_Result> usp_GetAllOrdersByUser(Nullable<long> id_user)
-    {
-
-        var id_userParameter = id_user.HasValue ?
-            new ObjectParameter("id_user", id_user) :
-            new ObjectParameter("id_user", typeof(long));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByUser_Result>("usp_GetAllOrdersByUser", id_userParameter);
-    }
-
-
     public virtual ObjectResult<usp_GetRolesByLoginId_Result> usp_GetRolesByLoginId(Nullable<long> id_login)
     {
 
@@ -748,6 +724,30 @@ public partial class MSKEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetOrderDetailByOrderId_Result>("usp_GetOrderDetailByOrderId", id_orderParameter);
+    }
+
+
+    public virtual ObjectResult<usp_GetAllOrdersByCompany_Result> usp_GetAllOrdersByCompany(Nullable<long> id_company)
+    {
+
+        var id_companyParameter = id_company.HasValue ?
+            new ObjectParameter("id_company", id_company) :
+            new ObjectParameter("id_company", typeof(long));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByCompany_Result>("usp_GetAllOrdersByCompany", id_companyParameter);
+    }
+
+
+    public virtual ObjectResult<usp_GetAllOrdersByUser_Result> usp_GetAllOrdersByUser(Nullable<long> id_user)
+    {
+
+        var id_userParameter = id_user.HasValue ?
+            new ObjectParameter("id_user", id_user) :
+            new ObjectParameter("id_user", typeof(long));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByUser_Result>("usp_GetAllOrdersByUser", id_userParameter);
     }
 
 }
