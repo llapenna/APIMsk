@@ -145,6 +145,7 @@
           <Parameter Name="activity" Type="varchar" Mode="In" />
           <Parameter Name="branch" Type="varchar" Mode="In" />
           <Parameter Name="balance" Type="decimal" Mode="In" />
+          <Parameter Name="idSeller" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_insertLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="login" Type="varchar" Mode="In" />
@@ -182,7 +183,7 @@
         <EntityContainer Name="MSKEntities" annotation:LazyLoadingEnabled="true" >
           <FunctionImport Name="GetSections" ReturnType="Collection(MSKModel.GetSections_Result)" />
           <FunctionImport Name="GetUserModules" ReturnType="Collection(MSKModel.GetUserModules_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int64" />
+          <Parameter Name="UserId" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="InsertPrice">
             <Parameter Name="iid_comodity" Mode="In" Type="Int64" />
@@ -190,13 +191,13 @@
             <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SelectIdCompanyByCUIT" ReturnType="Collection(Int64)">
-            <Parameter Name="cuit" Mode="In" Type="String" />
+          <Parameter Name="cuit" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="TransmitOrder">
-            <Parameter Name="idcompany" Mode="In" Type="Int64" />
+          <Parameter Name="idcompany" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="udp_selectCommodity" ReturnType="Collection(MSKModel.udp_selectCommodity_Result)">
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="UpdateLoginNoPassword">
             <Parameter Name="idLogin" Mode="In" Type="Int64" />
@@ -229,67 +230,67 @@
             <Parameter Name="pass" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_CheckToken" ReturnType="Collection(Boolean)">
-            <Parameter Name="token" Mode="In" Type="String" />
+          <Parameter Name="token" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_deleteOrder">
-            <Parameter Name="idorder" Mode="In" Type="Int64" />
+          <Parameter Name="idorder" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetAllLogin" ReturnType="Collection(MSKModel.usp_GetAllLogin_Result)" />
           <FunctionImport Name="usp_GetAllLogins" ReturnType="Collection(MSKModel.usp_GetAllLogins_Result)">
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetAllOrders" />
           <FunctionImport Name="usp_GetAllOrdersByCompany" ReturnType="Collection(MSKModel.usp_GetAllOrdersByCompany_Result)">
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetAllOrdersByUser" ReturnType="Collection(MSKModel.usp_GetAllOrdersByUser_Result)">
-            <Parameter Name="id_user" Mode="In" Type="Int64" />
+          <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetCustomerBySystemID" ReturnType="Collection(MSKModel.usp_GetCustomerBySystemID_Result)">
-            <Parameter Name="SystemId" Mode="In" Type="Int64" />
+          <Parameter Name="SystemId" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetLogin" ReturnType="Collection(Int64)">
             <Parameter Name="user" Mode="In" Type="String" />
             <Parameter Name="pass" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_GetLoginById" ReturnType="Collection(MSKModel.usp_GetLoginById_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int64" />
+          <Parameter Name="Id" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetLoginByName" ReturnType="Collection(MSKModel.usp_GetLoginByName_Result)">
-            <Parameter Name="Name" Mode="In" Type="String" />
+          <Parameter Name="Name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_GetLoginIdByToken" ReturnType="Collection(Int64)">
-            <Parameter Name="token" Mode="In" Type="String" />
+          <Parameter Name="token" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_GetOrderDetail" ReturnType="Collection(MSKModel.usp_GetOrderDetail_Result)">
             <Parameter Name="id_company" Mode="In" Type="Int64" />
             <Parameter Name="id_order" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetOrderDetailByOrderId" ReturnType="Collection(MSKModel.usp_GetOrderDetailByOrderId_Result)">
-            <Parameter Name="id_order" Mode="In" Type="Int64" />
+          <Parameter Name="id_order" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetOrders" ReturnType="Collection(MSKModel.usp_GetOrders_Result)">
-            <Parameter Name="id_user" Mode="In" Type="Int64" />
+          <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetRoles" ReturnType="Collection(MSKModel.usp_GetRoles_Result)">
-            <Parameter Name="idCompany" Mode="In" Type="Int64" />
+          <Parameter Name="idCompany" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetRolesByLoginId" ReturnType="Collection(MSKModel.usp_GetRolesByLoginId_Result)">
-            <Parameter Name="id_login" Mode="In" Type="Int64" />
+          <Parameter Name="id_login" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetRolesByUserId" ReturnType="Collection(MSKModel.usp_GetRolesByUserId_Result)">
             <Parameter Name="LoginId" Mode="In" Type="Int64" />
             <Parameter Name="companyid" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetSectionByIdModule" ReturnType="Collection(MSKModel.usp_GetSectionByIdModule_Result)">
-            <Parameter Name="idModule" Mode="In" Type="Int64" />
+          <Parameter Name="idModule" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetSingleOrder" ReturnType="Collection(MSKModel.usp_GetSingleOrder_Result)">
             <Parameter Name="id_company" Mode="In" Type="Int64" />
             <Parameter Name="id_order" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetUnitByIdComodity" ReturnType="Collection(MSKModel.usp_GetUnitByIdComodity_Result)">
-            <Parameter Name="idComodity" Mode="In" Type="Int64" />
+          <Parameter Name="idComodity" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_InsertCommodity">
             <Parameter Name="name" Mode="In" Type="String" />
@@ -299,6 +300,34 @@
             <Parameter Name="heading" Mode="In" Type="String" />
             <Parameter Name="unit_of_meassure" Mode="In" Type="String" />
             <Parameter Name="average_weight" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="usp_insertLogin" ReturnType="Collection(Int64)">
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="idCustomer" Mode="In" Type="Int64" />
+            <Parameter Name="seller" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertToken" ReturnType="Collection(String)">
+          <Parameter Name="id_login" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_LinkUserRole">
+            <Parameter Name="LoginId" Mode="In" Type="Int64" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int64" />
+            <Parameter Name="RoleId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_selectCustomer" ReturnType="Collection(MSKModel.usp_selectCustomer_Result)">
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_selectSellerNyIdLogin" ReturnType="Collection(Int64)">
+          <Parameter Name="UserId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_UnLinkUserRole">
+            <Parameter Name="LoginId" Mode="In" Type="Int64" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int64" />
+            <Parameter Name="RoleId" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_InsertCustomer">
             <Parameter Name="id_system" Mode="In" Type="Int64" />
@@ -317,34 +346,7 @@
             <Parameter Name="activity" Mode="In" Type="String" />
             <Parameter Name="branch" Mode="In" Type="String" />
             <Parameter Name="balance" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="usp_insertLogin" ReturnType="Collection(Int64)">
-            <Parameter Name="login" Mode="In" Type="String" />
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
-            <Parameter Name="email" Mode="In" Type="String" />
-            <Parameter Name="password" Mode="In" Type="String" />
-            <Parameter Name="phone" Mode="In" Type="String" />
-            <Parameter Name="idCustomer" Mode="In" Type="Int64" />
-            <Parameter Name="seller" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_InsertToken" ReturnType="Collection(String)">
-            <Parameter Name="id_login" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_LinkUserRole">
-            <Parameter Name="LoginId" Mode="In" Type="Int64" />
-            <Parameter Name="CompanyId" Mode="In" Type="Int64" />
-            <Parameter Name="RoleId" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_selectCustomer" ReturnType="Collection(MSKModel.usp_selectCustomer_Result)">
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_selectSellerNyIdLogin" ReturnType="Collection(Int64)">
-            <Parameter Name="UserId" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_UnLinkUserRole">
-            <Parameter Name="LoginId" Mode="In" Type="Int64" />
-            <Parameter Name="CompanyId" Mode="In" Type="Int64" />
-            <Parameter Name="RoleId" Mode="In" Type="Int64" />
+            <Parameter Name="idSeller" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetSections_Result">
@@ -784,7 +786,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_InsertCommodity" FunctionName="MSKModel.Store.usp_InsertCommodity" />
-          <FunctionImportMapping FunctionImportName="usp_InsertCustomer" FunctionName="MSKModel.Store.usp_InsertCustomer" />
           <FunctionImportMapping FunctionImportName="usp_insertLogin" FunctionName="MSKModel.Store.usp_insertLogin" />
           <FunctionImportMapping FunctionImportName="usp_InsertToken" FunctionName="MSKModel.Store.usp_InsertToken" />
           <FunctionImportMapping FunctionImportName="usp_LinkUserRole" FunctionName="MSKModel.Store.usp_LinkUserRole" />
@@ -813,6 +814,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_selectSellerNyIdLogin" FunctionName="MSKModel.Store.usp_selectSellerNyIdLogin" />
           <FunctionImportMapping FunctionImportName="usp_UnLinkUserRole" FunctionName="MSKModel.Store.usp_UnLinkUserRole" />
+          <FunctionImportMapping FunctionImportName="usp_InsertCustomer" FunctionName="MSKModel.Store.usp_InsertCustomer" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

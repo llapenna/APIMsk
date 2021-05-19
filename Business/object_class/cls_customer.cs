@@ -20,6 +20,7 @@ namespace Business.object_class
         private string cuit;
         private string phone;
         private string seller;
+        private long internal_code_seller;
         private string zone;
         private string route;
         private string custommerType;
@@ -42,6 +43,7 @@ namespace Business.object_class
         public string Activity { get => activity; set => activity = value; }
         public string Branch { get => branch; set => branch = value; }
         public decimal Balance { get => balance; set => balance = value; }
+        public long Internal_code_seller { get => internal_code_seller; set => internal_code_seller = value; }
 
         public cls_customer(cls_customer c)
         {
@@ -100,7 +102,8 @@ namespace Business.object_class
             string par_activity,
             string par_branch,
             string par_balance,
-            string par_cuitCompany
+            string par_cuitCompany,
+            long par_seller_internal_code
             )
         {
             id_system = par_id_system;
@@ -119,7 +122,8 @@ namespace Business.object_class
             activity = par_activity;
             branch = par_branch;
             decimal t_balance = 0;
-            balance = decimal.TryParse(par_balance, out t_balance) == true ? decimal.Parse(par_balance) : 0; ;
+            balance = decimal.TryParse(par_balance, out t_balance) == true ? decimal.Parse(par_balance) : 0;
+            internal_code_seller = par_seller_internal_code;
             save();
         }
 
@@ -144,7 +148,8 @@ namespace Business.object_class
                                 (custommerType == string.Empty || custommerType == null ? "" : custommerType),
                                 (activity == string.Empty || activity == null ? "" : activity),
                                 (branch == string.Empty || branch == null ? "" : branch),
-                                balance);
+                                balance,
+                                internal_code_seller);
         }
 
         public static filter_paged_response GetCustomers(long id_company, filter_request filter)
@@ -290,8 +295,12 @@ namespace Business.object_class
                     {
 
                         string[] f = LineString.Split(new string[] { "|" }, StringSplitOptions.None);
-
-                        cls_customer customer = new cls_customer(long.Parse(f[0]), IdCompany, f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], f[11], f[12], f[13], f[14], f[15]);
+                        long sellerinternalcode = 0;
+                        if (f[16].Trim() != string.Empty && f[16].Trim() != null) 
+                        {
+                            long.TryParse(f[16], out sellerinternalcode);
+                        }
+                        cls_customer customer = new cls_customer(long.Parse(f[0]), IdCompany, f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], f[11], f[12], f[13], f[14], f[15], long.Parse(f[16]));
 
                     }
                 }

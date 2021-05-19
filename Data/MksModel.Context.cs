@@ -421,75 +421,6 @@ namespace Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertCommodity", nameParameter, id_companyParameter, internal_codeParameter, lineParameter, headingParameter, unit_of_meassureParameter, average_weightParameter);
         }
     
-        public virtual int usp_InsertCustomer(Nullable<long> id_system, Nullable<long> id_company, string name, string address, string zipcode, string city, string iva, string cuit, string phone, string seller, string zone, string route, string custommerType, string activity, string branch, Nullable<decimal> balance)
-        {
-            var id_systemParameter = id_system.HasValue ?
-                new ObjectParameter("id_system", id_system) :
-                new ObjectParameter("id_system", typeof(long));
-    
-            var id_companyParameter = id_company.HasValue ?
-                new ObjectParameter("id_company", id_company) :
-                new ObjectParameter("id_company", typeof(long));
-    
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
-    
-            var addressParameter = address != null ?
-                new ObjectParameter("address", address) :
-                new ObjectParameter("address", typeof(string));
-    
-            var zipcodeParameter = zipcode != null ?
-                new ObjectParameter("zipcode", zipcode) :
-                new ObjectParameter("zipcode", typeof(string));
-    
-            var cityParameter = city != null ?
-                new ObjectParameter("city", city) :
-                new ObjectParameter("city", typeof(string));
-    
-            var ivaParameter = iva != null ?
-                new ObjectParameter("iva", iva) :
-                new ObjectParameter("iva", typeof(string));
-    
-            var cuitParameter = cuit != null ?
-                new ObjectParameter("cuit", cuit) :
-                new ObjectParameter("cuit", typeof(string));
-    
-            var phoneParameter = phone != null ?
-                new ObjectParameter("phone", phone) :
-                new ObjectParameter("phone", typeof(string));
-    
-            var sellerParameter = seller != null ?
-                new ObjectParameter("seller", seller) :
-                new ObjectParameter("seller", typeof(string));
-    
-            var zoneParameter = zone != null ?
-                new ObjectParameter("zone", zone) :
-                new ObjectParameter("zone", typeof(string));
-    
-            var routeParameter = route != null ?
-                new ObjectParameter("route", route) :
-                new ObjectParameter("route", typeof(string));
-    
-            var custommerTypeParameter = custommerType != null ?
-                new ObjectParameter("custommerType", custommerType) :
-                new ObjectParameter("custommerType", typeof(string));
-    
-            var activityParameter = activity != null ?
-                new ObjectParameter("activity", activity) :
-                new ObjectParameter("activity", typeof(string));
-    
-            var branchParameter = branch != null ?
-                new ObjectParameter("branch", branch) :
-                new ObjectParameter("branch", typeof(string));
-    
-            var balanceParameter = balance.HasValue ?
-                new ObjectParameter("balance", balance) :
-                new ObjectParameter("balance", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertCustomer", id_systemParameter, id_companyParameter, nameParameter, addressParameter, zipcodeParameter, cityParameter, ivaParameter, cuitParameter, phoneParameter, sellerParameter, zoneParameter, routeParameter, custommerTypeParameter, activityParameter, branchParameter, balanceParameter);
-        }
-    
         public virtual ObjectResult<Nullable<long>> usp_insertLogin(string login, Nullable<long> id_company, string email, string password, string phone, Nullable<long> idCustomer, Nullable<long> seller)
         {
             var loginParameter = login != null ?
@@ -582,6 +513,79 @@ namespace Data
                 new ObjectParameter("RoleId", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_UnLinkUserRole", loginIdParameter, companyIdParameter, roleIdParameter);
+        }
+    
+        public virtual int usp_InsertCustomer(Nullable<long> id_system, Nullable<long> id_company, string name, string address, string zipcode, string city, string iva, string cuit, string phone, string seller, string zone, string route, string custommerType, string activity, string branch, Nullable<decimal> balance, Nullable<long> idSeller)
+        {
+            var id_systemParameter = id_system.HasValue ?
+                new ObjectParameter("id_system", id_system) :
+                new ObjectParameter("id_system", typeof(long));
+    
+            var id_companyParameter = id_company.HasValue ?
+                new ObjectParameter("id_company", id_company) :
+                new ObjectParameter("id_company", typeof(long));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("address", address) :
+                new ObjectParameter("address", typeof(string));
+    
+            var zipcodeParameter = zipcode != null ?
+                new ObjectParameter("zipcode", zipcode) :
+                new ObjectParameter("zipcode", typeof(string));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("city", city) :
+                new ObjectParameter("city", typeof(string));
+    
+            var ivaParameter = iva != null ?
+                new ObjectParameter("iva", iva) :
+                new ObjectParameter("iva", typeof(string));
+    
+            var cuitParameter = cuit != null ?
+                new ObjectParameter("cuit", cuit) :
+                new ObjectParameter("cuit", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("phone", phone) :
+                new ObjectParameter("phone", typeof(string));
+    
+            var sellerParameter = seller != null ?
+                new ObjectParameter("seller", seller) :
+                new ObjectParameter("seller", typeof(string));
+    
+            var zoneParameter = zone != null ?
+                new ObjectParameter("zone", zone) :
+                new ObjectParameter("zone", typeof(string));
+    
+            var routeParameter = route != null ?
+                new ObjectParameter("route", route) :
+                new ObjectParameter("route", typeof(string));
+    
+            var custommerTypeParameter = custommerType != null ?
+                new ObjectParameter("custommerType", custommerType) :
+                new ObjectParameter("custommerType", typeof(string));
+    
+            var activityParameter = activity != null ?
+                new ObjectParameter("activity", activity) :
+                new ObjectParameter("activity", typeof(string));
+    
+            var branchParameter = branch != null ?
+                new ObjectParameter("branch", branch) :
+                new ObjectParameter("branch", typeof(string));
+    
+            var balanceParameter = balance.HasValue ?
+                new ObjectParameter("balance", balance) :
+                new ObjectParameter("balance", typeof(decimal));
+    
+            var idSellerParameter = idSeller.HasValue ?
+                new ObjectParameter("idSeller", idSeller) :
+                new ObjectParameter("idSeller", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertCustomer", id_systemParameter, id_companyParameter, nameParameter, addressParameter, zipcodeParameter, cityParameter, ivaParameter, cuitParameter, phoneParameter, sellerParameter, zoneParameter, routeParameter, custommerTypeParameter, activityParameter, branchParameter, balanceParameter, idSellerParameter);
         }
     }
 }
