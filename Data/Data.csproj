@@ -88,6 +88,9 @@
     <Compile Include="usp_GetAllOrdersByUser_Result.cs">
       <DependentUpon>MksModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="usp_GetAllOrders_Result.cs">
+      <DependentUpon>MksModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="usp_GetCustomerBySystemID_Result.cs">
       <DependentUpon>MksModel.tt</DependentUpon>
     </Compile>
@@ -101,9 +104,6 @@
       <DependentUpon>MksModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetOrderDetail_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="usp_GetOrders_Result.cs">
       <DependentUpon>MksModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetRolesByLoginId_Result.cs">

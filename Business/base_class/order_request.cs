@@ -12,6 +12,7 @@ namespace Business.base_class
         decimal amount;
         decimal price;
         bool noUnit;
+        
 
         public long IdCommodity { get => idCommodity; set => idCommodity = value; }
         public decimal Amount { get => amount; set => amount = value; }
@@ -23,9 +24,14 @@ namespace Business.base_class
         long idClient;
         List<order_detail_request> detail;
         long orderId;
+        string observation;
+        decimal discount;
+
 
         public long IdCustomer { get => idClient; set => idClient = value; }
         public List<order_detail_request> Detail { get => detail; set => detail = value; }
         public long OrderId { get => orderId; set => orderId = value; }
+        public string Observation { get => observation; set => observation = value; }
+        public decimal Discount { get => discount; set => discount = value; }
     }
 }

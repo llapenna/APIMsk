@@ -25,7 +25,7 @@ namespace ksmapi.Controllers
                     long idcompany = cls_login.GetCompanyIdByIdLogin(loginid);
                     if (r.Detail != null && r.Detail.Count > 0)
                     {
-                        cls_order_header oh = new cls_order_header(loginid ,idcompany, r.IdCustomer);
+                        cls_order_header oh = new cls_order_header(loginid ,idcompany, r.IdCustomer,r.Observation,r.Discount);
 
                         foreach (order_detail_request det in r.Detail)
                         {
@@ -62,7 +62,7 @@ namespace ksmapi.Controllers
                 
                 if (r.Detail != null && r.Detail.Count > 0)
                 {
-                    cls_order_header oh = new cls_order_header(loginid, idcompany, idcustomer);
+                    cls_order_header oh = new cls_order_header(loginid, idcompany, idcustomer, r.Observation, r.Discount);
                     
                     foreach (cls_temporalUpdatePedidoDetail det in r.Detail)
                     {

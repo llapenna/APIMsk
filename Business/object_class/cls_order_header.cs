@@ -49,12 +49,14 @@ namespace Business.object_class
         public string CustomerName { get => customerName; set => customerName = value; }
         public string CustomerCUIT { get => customerCUIT; set => customerCUIT = value; }
         public long IdUser { get => idUser; set => idUser = value; }
+        public string Observation { get => observation; set => observation = value; }
+        public decimal Discount { get => discount; set => discount = value; }
 
         /// <summary>
         /// For new orders
         /// </summary>
         /// <param name="par_id_company"></param>
-        public cls_order_header(long par_id_user, long par_id_company, long par_idCustomer) 
+        public cls_order_header(long par_id_user, long par_id_company, long par_idCustomer, string par_observations, decimal par_discount) 
         {
             idCustomer = par_idCustomer;
             idCompany = par_id_company;
@@ -63,9 +65,11 @@ namespace Business.object_class
             transmited = false;
             detail = new List<cls_order_detail>();
             Id = 0;
+            observation = par_observations;
+            discount = par_discount;
         }
 
-        public cls_order_header(usp_GetOrders_Result r, int par_idcompany) 
+        public cls_order_header(usp_GetAllOrders_Result r, int par_idcompany) 
         {
             date = r.DATETIME;
             customerName = r.CUSTOMER;
@@ -73,6 +77,9 @@ namespace Business.object_class
             detail = cls_order_detail.GetByOrderId(Id,par_idcompany);
             customerCUIT = r.CUSTOMERCUIT;
             idCustomer = r.CUSTOMERINTERNALID!=null?r.CUSTOMERINTERNALID.Value:0;
+            observation = r.OBSERVATIONS;
+            discount = r.DISCOUNT!=null?r.DISCOUNT.Value:0;
+            
         }
 
         public cls_order_header(usp_GetSingleOrder_Result r, long par_company) 
@@ -83,6 +90,9 @@ namespace Business.object_class
             detail = cls_order_detail.GetByOrderId(Id, par_company);
             customerCUIT = r.CUSTOMERCUIT;
             idCustomer = r.CUSTOMERID.Value;
+            discount = r.DISCOUNT!=null?r.DISCOUNT.Value:0;
+            observation = r.OBSERVATIONS;
+            
         }
 
         public cls_order_header(usp_GetAllOrdersByUser_Result r)
@@ -92,6 +102,7 @@ namespace Business.object_class
             detail = cls_order_detail.Get(r.ID);
             customerName = r.CUSTOMER;
             customerCUIT = r.CUSTOMERCUIT;
+            
         }
 
         public cls_order_header(usp_GetAllOrdersByCompany_Result r)
@@ -101,6 +112,7 @@ namespace Business.object_class
             detail = cls_order_detail.Get(r.ID);
             customerName = r.CUSTOMER;
             customerCUIT = r.CUSTOMERCUIT;
+            
         }
 
         public static List<cls_order_header> GetSingleOrder (long par_idOrder, long par_id_company) 
@@ -139,7 +151,7 @@ namespace Business.object_class
         public void Save() 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
-            Id = msk.ups_InsertOrderHeader(IdUser, IdCustomer,IdCompany).ToList()[0].Value;
+            Id = msk.ups_InsertOrderHeader(IdUser, IdCustomer,IdCompany, observation, discount).ToList()[0].Value;
             foreach (cls_order_detail d in detail) 
             {
                 d.Unit = d.Unit;
@@ -154,7 +166,7 @@ namespace Business.object_class
             string response="";
             try
             {
-                List<cls_order_header> OrderList = getAll(idcompany);
+                List<cls_order_header> OrderList =GetAllByCompanyId(idcompany);
                 response = "[HEADERS][ENDLINE]";
 
                 foreach (cls_order_header oh in OrderList)
@@ -191,16 +203,17 @@ namespace Business.object_class
             msk.TransmitOrder(idCompany);
         }
 
-        public static List<cls_order_header> getAll(int loginid) 
+        public static List<cls_order_header> getAllOrders() 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
-            List<usp_GetOrders_Result> orderlist = msk.usp_GetOrders(loginid).ToList();
+            List<usp_GetAllOrders_Result> orderlist = msk.usp_GetAllOrders().ToList();
             List<cls_order_header> list = new List<cls_order_header>();
             if (orderlist != null && orderlist.Count > 0)
             {               
-                foreach (usp_GetOrders_Result or in orderlist)
+                foreach (usp_GetAllOrders_Result or in orderlist)
                 {
-                    list.Add(new cls_order_header(or, loginid));
+                    /*list.Add(new cls_order_header(or, loginid));*/
+                    //Arroja vacio es de superadmin... corregir... fadlta constructor con la clase GetAllOrderResult
                 }
                 return list;
             }
