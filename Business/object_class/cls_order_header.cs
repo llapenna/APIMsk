@@ -38,6 +38,8 @@ namespace Business.object_class
         List<cls_order_detail> detail;
         string customerName;
         string customerCUIT;
+        string observation;
+        decimal discount;
 
         public long IdCompany { get => idCompany; set => idCompany = value; }
         public DateTime Date { get => date; set => date = value; }

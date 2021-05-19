@@ -73,6 +73,31 @@ namespace Business.object_class
 
 
         }
+        public cls_customer(usp_selectCustomerByUser_Result r)
+        {
+            Id = r.ID;
+            id_system = r.ID_SYSTEM;
+            id_company = r.ID_COMPANY;
+
+            Name = r.NAME;
+            address = r.ADDRESS;
+            cuit = r.CUIT;
+            phone = r.PHONE;
+            zipcode = r.ZIPCODE;
+            city = r.CITY;
+            zone = r.ZONE;
+            route = r.ROUTE;
+            branch = r.BRANCH;
+
+            custommerType = r.TYPE;
+            activity = r.ACTIVITY;
+
+            balance = r.BALANCE ?? 0;
+            iva = r.IVA;
+
+            seller = r.SELLER;
+
+        }
 
         private cls_customer(Data.usp_GetCustomerBySystemID_Result r)
         {
@@ -266,6 +291,163 @@ namespace Business.object_class
 
         }
 
+        public static filter_paged_response GetCustomersByUser(long id_login, filter_request filter)
+        {
+            filter_paged_response response = new filter_paged_response();
+
+            MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_selectCustomerByUser_Result> r = msk.usp_selectCustomerByUser(id_login).ToList();
+
+            // Verificamos que haya por lo menos un filtro y que no sea uno nulo
+            bool mustFilter = filter.FiltersExists && filter.Filters.Last().Id != -1;
+
+            if (r != null && r.Count > 0)
+            {
+                List<cls_customer> customers = new List<cls_customer>();
+
+                foreach (usp_selectCustomerByUser_Result c in r)
+                {
+                    // Verificamos que la informacion no sea nula
+                    if (c != null)
+                    {
+                        if (mustFilter)
+                        {
+                            // Nos quedamos con el ultimo filtro, por requerimiento
+                            search_filter sf = filter.Filters.Last();
+
+                            // Si el valor coincide con el filtro
+                            if (sf.Match(c))
+                                customers.Add(new cls_customer(c));
+
+                        }
+                        // No hay filtros, devolvemos todo
+                        else
+                            customers.Add(new cls_customer(c));
+
+                    }
+                    else break;
+                }
+
+                // Nos quedamos con una seccion de los resultados
+                response.CustomerList = customers.GetRange(filter.Page * filter.ResultsPerPage, filter.ResultsPerPage);
+                response.MaxPages = Convert.ToInt32(customers.Count / filter.ResultsPerPage + r.Count % filter.ResultsPerPage == 0 ? 0 : 1);
+                response.TotalInPage = customers.Count;
+                r.Clear();
+            }
+
+            return response;
+        }
+
+        public static filter_paged_response GetCustomersByCompany(long id_company, filter_request filter)
+        {
+            filter_paged_response resp = new filter_paged_response();
+            resp.Debug.Add("se recibe un filtro con resultados por pagina " + filter.ResultsPerPage.ToString());
+            resp.Debug.Add("se recibe un filtro con pagina " + filter.Page.ToString());
+            MSKEntities e = Data.singleton.cls_static_MksModel.GetEntity();
+            List<usp_selectCustomer_Result> lcust = e.usp_selectCustomer(id_company).ToList();
+            if (lcust != null && lcust.Count > 0)
+            {
+
+
+                List<cls_customer> customerlist = new List<cls_customer>();
+                int count = 0;
+                for (int a = 0; a < lcust.Count; a++)
+                {
+
+                    if (lcust[a] != null)
+                    {
+                        if (filter.FiltersExists == true)
+                        {
+                            resp.Debug.Add("Existen filtros");
+
+                            // Solamente utiliza el ultimo filtro que se envia, por requerimiento de MSK
+                            search_filter sf = filter.Filters[filter.Filters.Count - 1];
+
+                            bool added = false;
+                            if (sf.Id != -1)
+                            {
+                                if (sf.Key == "Name" && added == false && lcust[a].name.ToLower().Contains(sf.Value.ToLower()))
+                                {
+                                    count++;
+                                    customerlist.Add(new cls_customer(lcust[a]));
+                                    added = true;
+                                }
+                                if (sf.Key.ToLower() == "cuit" && added == false && lcust[a].CUIT.ToLower().Replace("-", "").Contains(sf.Value.ToLower().Replace("-", "")))
+                                {
+                                    count++;
+                                    customerlist.Add(new cls_customer(lcust[a]));
+                                    added = true;
+                                }
+                                try
+                                {
+                                    if (sf.Key.ToLower() == "id_system" && added == false && lcust[a].id_system == long.Parse(sf.Value))
+                                    {
+                                        count++;
+                                        customerlist.Add(new cls_customer(lcust[a]));
+                                        added = true;
+                                    }
+                                }
+                                catch (Exception exc)
+                                {
+                                    resp.Debug.Add("No se pudo parsear ese codigo interno...");
+                                }
+                            }
+                            else
+                            {
+                                count++;
+                                customerlist.Add(new cls_customer(lcust[a]));
+                                added = true;
+                            }
+                        }
+                        else
+                        {
+
+                            resp.Debug.Add("NO Existen filtros");
+                            count++;
+                            customerlist.Add(new cls_customer(lcust[a]));
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                int pointer = filter.ResultsPerPage * (filter.Page - 1);
+                List<cls_customer> PageFragment = new List<cls_customer>();
+                for (int a = pointer; a < filter.ResultsPerPage + pointer; a++)
+                {
+                    try
+                    {
+                        if (customerlist[a] != null)
+                        {
+                            PageFragment.Add(customerlist[a]);
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        break;
+                    }
+                }
+
+                resp.CustomerList = PageFragment;
+                decimal division = customerlist.Count / filter.ResultsPerPage;
+                resp.Debug.Add("la division de total de paginas da " + division.ToString());
+                division += lcust.Count % filter.ResultsPerPage == 0 ? 0 : 1;
+                resp.Debug.Add("finaliza con un total de paginas de " + division.ToString());
+                resp.MaxPages = Convert.ToInt32(division);
+                resp.TotalInPage = customerlist.Count;
+                lcust.Clear();
+                return resp;
+            }
+
+            else
+            {
+                return new filter_paged_response();
+            }
+
+        }
         public static cls_customer GetCustomerByInternalID(long par_SystemID)
         {
 

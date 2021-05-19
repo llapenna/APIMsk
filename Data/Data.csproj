@@ -124,6 +124,9 @@
     <Compile Include="usp_GetUnitByIdComodity_Result.cs">
       <DependentUpon>MksModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="usp_selectCustomerByUser_Result.cs">
+      <DependentUpon>MksModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="usp_selectCustomer_Result.cs">
       <DependentUpon>MksModel.tt</DependentUpon>
     </Compile>

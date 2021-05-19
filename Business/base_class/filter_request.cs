@@ -16,6 +16,18 @@ namespace Business.base_class
         public string Key { get => key; set => key = value; }
         public string Value { get => value; set => this.value = value; }
         public long Id { get => id; set => id = value; }
+
+        public bool Match<TObject>(TObject o)
+        {
+            try
+            {
+                return o.GetType().GetField(key.ToLower()).GetValue(o).ToString().ToLower() == value.ToLower();
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 
     public class filter_request:business_base_class

@@ -37,9 +37,18 @@ namespace ksmapi.Controllers
                 if (cls_token.validate(c))
                 {
                     long loginid = cls_token.GetLoginId(c.Token.Key).Value;
-                    long idcompany = cls_login.GetCompanyIdByIdLogin(loginid);
-                    filter_paged_response cl = cls_customer.GetCustomers(idcompany, c);
-                    return Ok(cl);
+                    long companyid = cls_login.GetCompanyIdByIdLogin(loginid);
+
+                    cls_login user = cls_login.Get(loginid);
+
+                    // Trae todos los clientes de la company
+                    if (user.Roles[0].Name == "Administrator")
+                        return Ok(cls_customer.GetCustomersByCompany(companyid, c));
+                    
+                    // Trae todos los clientes de un user determinado
+                    else 
+                        return Ok(cls_customer.GetCustomersByUser(loginid, c));
+                    
                 }
                 else
                 {

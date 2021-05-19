@@ -14,24 +14,24 @@ namespace Data
 
 using System;
     
-public partial class usp_selectCustomer_Result
+public partial class usp_selectCustomerByUser_Result
 {
 
-    public long id { get; set; }
+    public long ID { get; set; }
 
-    public long id_system { get; set; }
+    public long ID_SYSTEM { get; set; }
 
-    public long id_company { get; set; }
+    public long ID_COMPANY { get; set; }
 
-    public string name { get; set; }
+    public string NAME { get; set; }
 
-    public string address { get; set; }
+    public string ADDRESS { get; set; }
 
     public string CUIT { get; set; }
 
-    public string phone { get; set; }
+    public string PHONE { get; set; }
 
-    public Nullable<decimal> balance { get; set; }
+    public Nullable<decimal> BALANCE { get; set; }
 
     public string ZIPCODE { get; set; }
 

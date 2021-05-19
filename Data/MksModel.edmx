@@ -51,6 +51,8 @@
           <Parameter Name="id_user" Type="bigint" Mode="In" />
           <Parameter Name="id_customer" Type="bigint" Mode="In" />
           <Parameter Name="id_company" Type="bigint" Mode="In" />
+          <Parameter Name="observations" Type="varchar(max)" Mode="In" />
+          <Parameter Name="discount" Type="decimal" Mode="In" />
         </Function>
         <Function Name="usp_CheckLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="user" Type="varchar" Mode="In" />
@@ -167,6 +169,9 @@
         <Function Name="usp_selectCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_company" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_selectCustomerByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_user" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_selectSellerNyIdLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="bigint" Mode="In" />
         </Function>
@@ -224,6 +229,8 @@
             <Parameter Name="id_user" Mode="In" Type="Int64" />
             <Parameter Name="id_customer" Mode="In" Type="Int64" />
             <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="observations" Mode="In" Type="String" />
+            <Parameter Name="discount" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="usp_CheckLogin" ReturnType="Collection(Boolean)">
             <Parameter Name="user" Mode="In" Type="String" />
@@ -347,6 +354,9 @@
             <Parameter Name="branch" Mode="In" Type="String" />
             <Parameter Name="balance" Mode="In" Type="Decimal" />
             <Parameter Name="idSeller" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_selectCustomerByUser" ReturnType="Collection(MSKModel.usp_selectCustomerByUser_Result)">
+            <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetSections_Result">
@@ -519,6 +529,25 @@
           <Property Type="String" Name="CUIT" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="phone" Nullable="false" MaxLength="100" />
           <Property Type="Decimal" Name="balance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="ZIPCODE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CITY" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IVA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SELLER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ZONE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ROUTE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TYPE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACTIVITY" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BRANCH" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="usp_selectCustomerByUser_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="Int64" Name="ID_SYSTEM" Nullable="false" />
+          <Property Type="Int64" Name="ID_COMPANY" Nullable="false" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ADDRESS" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CUIT" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="PHONE" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="BALANCE" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="ZIPCODE" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CITY" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="IVA" Nullable="true" MaxLength="100" />
@@ -815,6 +844,29 @@
           <FunctionImportMapping FunctionImportName="usp_selectSellerNyIdLogin" FunctionName="MSKModel.Store.usp_selectSellerNyIdLogin" />
           <FunctionImportMapping FunctionImportName="usp_UnLinkUserRole" FunctionName="MSKModel.Store.usp_UnLinkUserRole" />
           <FunctionImportMapping FunctionImportName="usp_InsertCustomer" FunctionName="MSKModel.Store.usp_InsertCustomer" />
+          <FunctionImportMapping FunctionImportName="usp_selectCustomerByUser" FunctionName="MSKModel.Store.usp_selectCustomerByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_selectCustomerByUser_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_SYSTEM" ColumnName="ID_SYSTEM" />
+                <ScalarProperty Name="ID_COMPANY" ColumnName="ID_COMPANY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="BALANCE" ColumnName="BALANCE" />
+                <ScalarProperty Name="ZIPCODE" ColumnName="ZIPCODE" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="SELLER" ColumnName="SELLER" />
+                <ScalarProperty Name="ZONE" ColumnName="ZONE" />
+                <ScalarProperty Name="ROUTE" ColumnName="ROUTE" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="ACTIVITY" ColumnName="ACTIVITY" />
+                <ScalarProperty Name="BRANCH" ColumnName="BRANCH" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
