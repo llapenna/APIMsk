@@ -329,7 +329,10 @@ namespace Business.object_class
                 }
 
                 // Nos quedamos con una seccion de los resultados
-                response.CustomerList = customers.GetRange(filter.Page * filter.ResultsPerPage, filter.ResultsPerPage);
+                response.CustomerList = customers.Count > filter.ResultsPerPage
+                    ? customers.GetRange(filter.Page * filter.ResultsPerPage, filter.ResultsPerPage)
+                    : customers;
+
                 response.MaxPages = Convert.ToInt32(customers.Count / filter.ResultsPerPage + r.Count % filter.ResultsPerPage == 0 ? 0 : 1);
                 response.TotalInPage = customers.Count;
                 r.Clear();

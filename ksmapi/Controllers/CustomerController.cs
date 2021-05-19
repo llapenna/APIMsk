@@ -42,7 +42,7 @@ namespace ksmapi.Controllers
                     cls_login user = cls_login.Get(loginid);
 
                     // Trae todos los clientes de la company
-                    if (user.Roles[0].Name == "Administrator")
+                     if (user.Roles[0].Name == "Administrator")
                         return Ok(cls_customer.GetCustomersByCompany(companyid, c));
                     
                     // Trae todos los clientes de un user determinado
