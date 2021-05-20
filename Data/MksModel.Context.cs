@@ -604,5 +604,36 @@ namespace Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetSingleOrder_Result>("usp_GetSingleOrder", id_companyParameter, id_orderParameter);
         }
+    
+        public virtual int delete_log()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_log");
+        }
+    
+        public virtual int insert_log(string message, string stack, Nullable<long> iduser, Nullable<long> idcompany)
+        {
+            var messageParameter = message != null ?
+                new ObjectParameter("message", message) :
+                new ObjectParameter("message", typeof(string));
+    
+            var stackParameter = stack != null ?
+                new ObjectParameter("stack", stack) :
+                new ObjectParameter("stack", typeof(string));
+    
+            var iduserParameter = iduser.HasValue ?
+                new ObjectParameter("iduser", iduser) :
+                new ObjectParameter("iduser", typeof(long));
+    
+            var idcompanyParameter = idcompany.HasValue ?
+                new ObjectParameter("idcompany", idcompany) :
+                new ObjectParameter("idcompany", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_log", messageParameter, stackParameter, iduserParameter, idcompanyParameter);
+        }
+    
+        public virtual ObjectResult<getLog_Result> getLog()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getLog_Result>("getLog");
+        }
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="object_class\cls_section.cs" />
     <Compile Include="object_class\cls_temporalUpdatePedido.cs" />
     <Compile Include="object_class\cls_unitOfMeasurement.cs" />
+    <Compile Include="object_class\log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

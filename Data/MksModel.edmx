@@ -5,9 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MSKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="delete_log" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSections" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetUserModules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="insert_log" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="message" Type="varchar(max)" Mode="In" />
+          <Parameter Name="stack" Type="varchar(max)" Mode="In" />
+          <Parameter Name="iduser" Type="bigint" Mode="In" />
+          <Parameter Name="idcompany" Type="bigint" Mode="In" />
         </Function>
         <Function Name="InsertPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="iid_comodity" Type="bigint" Mode="In" />
@@ -358,6 +366,14 @@
             <Parameter Name="id_company" Mode="In" Type="Int64" />
             <Parameter Name="id_order" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="delete_log" />
+          <FunctionImport Name="insert_log">
+            <Parameter Name="message" Mode="In" Type="String" />
+            <Parameter Name="stack" Mode="In" Type="String" />
+            <Parameter Name="iduser" Mode="In" Type="Int64" />
+            <Parameter Name="idcompany" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="getLog" ReturnType="Collection(MSKModel.getLog_Result)" />
         </EntityContainer>
         <ComplexType Name="GetSections_Result">
           <Property Type="Int64" Name="SECTIONID" Nullable="false" />
@@ -566,6 +582,14 @@
           <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
           <Property Type="Int64" Name="CUSTOMERID" Nullable="true" />
           <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="getLog_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="Message" Nullable="false" />
+          <Property Type="String" Name="Stack" Nullable="false" />
+          <Property Type="DateTime" Name="datetime" Nullable="false" Precision="23" />
+          <Property Type="Int64" Name="id_user" Nullable="false" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -883,6 +907,20 @@
                 <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
                 <ScalarProperty Name="CUSTOMERID" ColumnName="CUSTOMERID" />
                 <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="delete_log" FunctionName="MSKModel.Store.delete_log" />
+          <FunctionImportMapping FunctionImportName="insert_log" FunctionName="MSKModel.Store.insert_log" />
+          <FunctionImportMapping FunctionImportName="getLog" FunctionName="MSKModel.Store.getLog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.getLog_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Stack" ColumnName="Stack" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
