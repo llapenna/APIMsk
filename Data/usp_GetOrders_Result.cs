@@ -11,16 +11,17 @@ namespace Data
 {
     using System;
     
-    public partial class usp_GetAllOrders_Result
+    public partial class usp_GetOrders_Result
     {
         public long ID { get; set; }
         public System.DateTime DATETIME { get; set; }
+        public string OBSERVATIONS { get; set; }
+        public Nullable<decimal> DISCOUNT { get; set; }
         public string CUSTOMER { get; set; }
         public string CUSTOMERCUIT { get; set; }
         public Nullable<long> CUSTOMERINTERNALID { get; set; }
-        public Nullable<long> IDCOMPANY { get; set; }
-        public Nullable<decimal> DISCOUNT { get; set; }
-        public string OBSERVATIONS { get; set; }
+        public Nullable<decimal> DISCOUNT1 { get; set; }
+        public string OBSERVATIONS1 { get; set; }
         public Nullable<long> RECEIPTTYPE { get; set; }
     }
 }

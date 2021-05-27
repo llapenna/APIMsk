@@ -51,97 +51,106 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="getLog_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetSections_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetUserModules_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MksModel.Context.cs">
+    <Compile Include="MSKModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MksModel.Context.tt</DependentUpon>
+      <DependentUpon>MSKModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="MksModel.cs">
+    <Compile Include="MSKModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MksModel.Designer.cs">
+    <Compile Include="MSKModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MksModel.edmx</DependentUpon>
+      <DependentUpon>MSKModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="singleton\cls_static_MksModel.cs" />
     <Compile Include="udp_selectCommodity_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetAllLogins_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetAllLogin_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetAllOrdersByCompany_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetAllOrdersByUser_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetAllOrders_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetCustomerBySystemID_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetLoginById_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetLoginByName_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetOrderDetailByOrderId_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetOrderDetail_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_GetOrders_Result.cs">
+      <DependentUpon>MSKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_GetReceiptType_Result.cs">
+      <DependentUpon>MSKModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_GetReciptTypeByid_Result.cs">
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetRolesByLoginId_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetRolesByUserId_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetRoles_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetSectionByIdModule_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetSingleOrder_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_GetUnitByIdComodity_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_selectCustomerByUser_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_selectCustomer_Result.cs">
-      <DependentUpon>MksModel.tt</DependentUpon>
+      <DependentUpon>MSKModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="MksModel.edmx">
+    <EntityDeploy Include="MSKModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MksModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>MSKModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="MksModel.edmx.diagram">
-      <DependentUpon>MksModel.edmx</DependentUpon>
+    <None Include="MSKModel.edmx.diagram">
+      <DependentUpon>MSKModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -149,15 +158,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MksModel.Context.tt">
+    <Content Include="MSKModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MksModel.edmx</DependentUpon>
-      <LastGenOutput>MksModel.Context.cs</LastGenOutput>
+      <DependentUpon>MSKModel.edmx</DependentUpon>
+      <LastGenOutput>MSKModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="MksModel.tt">
+    <Content Include="MSKModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MksModel.edmx</DependentUpon>
-      <LastGenOutput>MksModel.cs</LastGenOutput>
+      <DependentUpon>MSKModel.edmx</DependentUpon>
+      <LastGenOutput>MSKModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

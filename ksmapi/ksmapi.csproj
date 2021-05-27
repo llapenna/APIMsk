@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

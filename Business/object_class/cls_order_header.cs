@@ -40,6 +40,8 @@ namespace Business.object_class
         string customerCUIT;
         string observation;
         decimal discount;
+        long receipt_type;
+        cls_receipt_type receiptType = null;
 
         public long IdCompany { get => idCompany; set => idCompany = value; }
         public DateTime Date { get => date; set => date = value; }
@@ -51,12 +53,14 @@ namespace Business.object_class
         public long IdUser { get => idUser; set => idUser = value; }
         public string Observation { get => observation; set => observation = value; }
         public decimal Discount { get => discount; set => discount = value; }
+        public long Receipt_type { get => receipt_type; set => receipt_type = value; }
+        public cls_receipt_type ReceiptType { get => receiptType; set => receiptType = value; }
 
         /// <summary>
         /// For new orders
         /// </summary>
         /// <param name="par_id_company"></param>
-        public cls_order_header(long par_id_user, long par_id_company, long par_idCustomer, string par_observations, decimal par_discount) 
+        public cls_order_header(long par_id_user, long par_id_company, long par_idCustomer, string par_observations, decimal par_discount, long par_receipt_type) 
         {
             idCustomer = par_idCustomer;
             idCompany = par_id_company;
@@ -67,6 +71,8 @@ namespace Business.object_class
             Id = 0;
             observation = par_observations;
             discount = par_discount;
+            receipt_type = par_receipt_type;
+            receiptType = cls_receipt_type.GetById(par_receipt_type);
         }
 
         public cls_order_header(usp_GetAllOrders_Result r, int par_idcompany) 
@@ -79,7 +85,9 @@ namespace Business.object_class
             idCustomer = r.CUSTOMERINTERNALID!=null?r.CUSTOMERINTERNALID.Value:0;
             observation = r.OBSERVATIONS;
             discount = r.DISCOUNT!=null?r.DISCOUNT.Value:0;
-            
+            receipt_type = r.RECEIPTTYPE!=null?r.RECEIPTTYPE.Value:0;
+            receiptType = cls_receipt_type.GetById(receipt_type);
+
         }
 
         public cls_order_header(usp_GetSingleOrder_Result r, long par_company) 
@@ -92,7 +100,9 @@ namespace Business.object_class
             idCustomer = r.CUSTOMERID.Value;
             discount = r.DISCOUNT!=null?r.DISCOUNT.Value:0;
             observation = r.OBSERVATIONS;
-            
+            receipt_type = r.RECEIPTTYPE!=null?r.RECEIPTTYPE.Value:0;
+            receiptType = cls_receipt_type.GetById(receipt_type);
+
         }
 
         public cls_order_header(usp_GetAllOrdersByUser_Result r)
@@ -151,7 +161,7 @@ namespace Business.object_class
         public void Save() 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
-            Id = msk.ups_InsertOrderHeader(IdUser, IdCustomer,IdCompany, observation, discount).ToList()[0].Value;
+            Id = msk.ups_InsertOrderHeader(IdUser, IdCustomer,IdCompany, observation, discount, receipt_type).ToList()[0].Value;
             foreach (cls_order_detail d in detail) 
             {
                 d.Unit = d.Unit;

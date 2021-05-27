@@ -28,6 +28,16 @@ namespace Data
         }
     
     
+        public virtual int delete_log()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_log");
+        }
+    
+        public virtual ObjectResult<getLog_Result> getLog()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getLog_Result>("getLog");
+        }
+    
         public virtual ObjectResult<GetSections_Result> GetSections()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSections_Result>("GetSections");
@@ -40,6 +50,27 @@ namespace Data
                 new ObjectParameter("UserId", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserModules_Result>("GetUserModules", userIdParameter);
+        }
+    
+        public virtual int insert_log(string message, string stack, Nullable<long> iduser, Nullable<long> idcompany)
+        {
+            var messageParameter = message != null ?
+                new ObjectParameter("message", message) :
+                new ObjectParameter("message", typeof(string));
+    
+            var stackParameter = stack != null ?
+                new ObjectParameter("stack", stack) :
+                new ObjectParameter("stack", typeof(string));
+    
+            var iduserParameter = iduser.HasValue ?
+                new ObjectParameter("iduser", iduser) :
+                new ObjectParameter("iduser", typeof(long));
+    
+            var idcompanyParameter = idcompany.HasValue ?
+                new ObjectParameter("idcompany", idcompany) :
+                new ObjectParameter("idcompany", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_log", messageParameter, stackParameter, iduserParameter, idcompanyParameter);
         }
     
         public virtual int InsertPrice(Nullable<long> iid_comodity, Nullable<decimal> price, Nullable<long> id_company)
@@ -161,7 +192,7 @@ namespace Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ups_InsertOrderDetail", id_companyParameter, id_orderParameter, id_commodityParameter, amountParameter, id_unitParameter, priceParameter, nounitParameter);
         }
     
-        public virtual ObjectResult<Nullable<long>> ups_InsertOrderHeader(Nullable<long> id_user, Nullable<long> id_customer, Nullable<long> id_company, string observations, Nullable<decimal> discount)
+        public virtual ObjectResult<Nullable<long>> ups_InsertOrderHeader(Nullable<long> id_user, Nullable<long> id_customer, Nullable<long> id_company, string observations, Nullable<decimal> discount, Nullable<long> receipt_type)
         {
             var id_userParameter = id_user.HasValue ?
                 new ObjectParameter("id_user", id_user) :
@@ -183,7 +214,11 @@ namespace Data
                 new ObjectParameter("discount", discount) :
                 new ObjectParameter("discount", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ups_InsertOrderHeader", id_userParameter, id_customerParameter, id_companyParameter, observationsParameter, discountParameter);
+            var receipt_typeParameter = receipt_type.HasValue ?
+                new ObjectParameter("receipt_type", receipt_type) :
+                new ObjectParameter("receipt_type", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ups_InsertOrderHeader", id_userParameter, id_customerParameter, id_companyParameter, observationsParameter, discountParameter, receipt_typeParameter);
         }
     
         public virtual ObjectResult<Nullable<bool>> usp_CheckLogin(string user, string pass)
@@ -229,6 +264,29 @@ namespace Data
                 new ObjectParameter("id_company", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllLogins_Result>("usp_GetAllLogins", id_companyParameter);
+        }
+    
+        public virtual ObjectResult<usp_GetAllOrders_Result> usp_GetAllOrders()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrders_Result>("usp_GetAllOrders");
+        }
+    
+        public virtual ObjectResult<usp_GetAllOrdersByCompany_Result> usp_GetAllOrdersByCompany(Nullable<long> id_company)
+        {
+            var id_companyParameter = id_company.HasValue ?
+                new ObjectParameter("id_company", id_company) :
+                new ObjectParameter("id_company", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByCompany_Result>("usp_GetAllOrdersByCompany", id_companyParameter);
+        }
+    
+        public virtual ObjectResult<usp_GetAllOrdersByUser_Result> usp_GetAllOrdersByUser(Nullable<long> id_user)
+        {
+            var id_userParameter = id_user.HasValue ?
+                new ObjectParameter("id_user", id_user) :
+                new ObjectParameter("id_user", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByUser_Result>("usp_GetAllOrdersByUser", id_userParameter);
         }
     
         public virtual ObjectResult<usp_GetCustomerBySystemID_Result> usp_GetCustomerBySystemID(Nullable<long> systemId)
@@ -302,13 +360,18 @@ namespace Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetOrderDetailByOrderId_Result>("usp_GetOrderDetailByOrderId", id_orderParameter);
         }
     
-        public virtual int usp_GetOrders(Nullable<long> id_user)
+        public virtual ObjectResult<usp_GetOrders_Result> usp_GetOrders(Nullable<long> id_user)
         {
             var id_userParameter = id_user.HasValue ?
                 new ObjectParameter("id_user", id_user) :
                 new ObjectParameter("id_user", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GetOrders", id_userParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetOrders_Result>("usp_GetOrders", id_userParameter);
+        }
+    
+        public virtual ObjectResult<usp_GetReceiptType_Result> usp_GetReceiptType()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetReceiptType_Result>("usp_GetReceiptType");
         }
     
         public virtual ObjectResult<usp_GetRoles_Result> usp_GetRoles(Nullable<long> idCompany)
@@ -351,6 +414,19 @@ namespace Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetSectionByIdModule_Result>("usp_GetSectionByIdModule", idModuleParameter);
         }
     
+        public virtual ObjectResult<usp_GetSingleOrder_Result> usp_GetSingleOrder(Nullable<long> id_company, Nullable<long> id_order)
+        {
+            var id_companyParameter = id_company.HasValue ?
+                new ObjectParameter("id_company", id_company) :
+                new ObjectParameter("id_company", typeof(long));
+    
+            var id_orderParameter = id_order.HasValue ?
+                new ObjectParameter("id_order", id_order) :
+                new ObjectParameter("id_order", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetSingleOrder_Result>("usp_GetSingleOrder", id_companyParameter, id_orderParameter);
+        }
+    
         public virtual ObjectResult<usp_GetUnitByIdComodity_Result> usp_GetUnitByIdComodity(Nullable<long> idComodity)
         {
             var idComodityParameter = idComodity.HasValue ?
@@ -391,100 +467,6 @@ namespace Data
                 new ObjectParameter("average_weight", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertCommodity", nameParameter, id_companyParameter, internal_codeParameter, lineParameter, headingParameter, unit_of_meassureParameter, average_weightParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<long>> usp_insertLogin(string login, Nullable<long> id_company, string email, string password, string phone, Nullable<long> idCustomer, Nullable<long> seller)
-        {
-            var loginParameter = login != null ?
-                new ObjectParameter("login", login) :
-                new ObjectParameter("login", typeof(string));
-    
-            var id_companyParameter = id_company.HasValue ?
-                new ObjectParameter("id_company", id_company) :
-                new ObjectParameter("id_company", typeof(long));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            var phoneParameter = phone != null ?
-                new ObjectParameter("phone", phone) :
-                new ObjectParameter("phone", typeof(string));
-    
-            var idCustomerParameter = idCustomer.HasValue ?
-                new ObjectParameter("idCustomer", idCustomer) :
-                new ObjectParameter("idCustomer", typeof(long));
-    
-            var sellerParameter = seller.HasValue ?
-                new ObjectParameter("seller", seller) :
-                new ObjectParameter("seller", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("usp_insertLogin", loginParameter, id_companyParameter, emailParameter, passwordParameter, phoneParameter, idCustomerParameter, sellerParameter);
-        }
-    
-        public virtual ObjectResult<string> usp_InsertToken(Nullable<long> id_login)
-        {
-            var id_loginParameter = id_login.HasValue ?
-                new ObjectParameter("id_login", id_login) :
-                new ObjectParameter("id_login", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("usp_InsertToken", id_loginParameter);
-        }
-    
-        public virtual int usp_LinkUserRole(Nullable<long> loginId, Nullable<long> companyId, Nullable<long> roleId)
-        {
-            var loginIdParameter = loginId.HasValue ?
-                new ObjectParameter("LoginId", loginId) :
-                new ObjectParameter("LoginId", typeof(long));
-    
-            var companyIdParameter = companyId.HasValue ?
-                new ObjectParameter("CompanyId", companyId) :
-                new ObjectParameter("CompanyId", typeof(long));
-    
-            var roleIdParameter = roleId.HasValue ?
-                new ObjectParameter("RoleId", roleId) :
-                new ObjectParameter("RoleId", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_LinkUserRole", loginIdParameter, companyIdParameter, roleIdParameter);
-        }
-    
-        public virtual ObjectResult<usp_selectCustomer_Result> usp_selectCustomer(Nullable<long> id_company)
-        {
-            var id_companyParameter = id_company.HasValue ?
-                new ObjectParameter("id_company", id_company) :
-                new ObjectParameter("id_company", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_selectCustomer_Result>("usp_selectCustomer", id_companyParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<long>> usp_selectSellerNyIdLogin(Nullable<long> userId)
-        {
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("usp_selectSellerNyIdLogin", userIdParameter);
-        }
-    
-        public virtual int usp_UnLinkUserRole(Nullable<long> loginId, Nullable<long> companyId, Nullable<long> roleId)
-        {
-            var loginIdParameter = loginId.HasValue ?
-                new ObjectParameter("LoginId", loginId) :
-                new ObjectParameter("LoginId", typeof(long));
-    
-            var companyIdParameter = companyId.HasValue ?
-                new ObjectParameter("CompanyId", companyId) :
-                new ObjectParameter("CompanyId", typeof(long));
-    
-            var roleIdParameter = roleId.HasValue ?
-                new ObjectParameter("RoleId", roleId) :
-                new ObjectParameter("RoleId", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_UnLinkUserRole", loginIdParameter, companyIdParameter, roleIdParameter);
         }
     
         public virtual int usp_InsertCustomer(Nullable<long> id_system, Nullable<long> id_company, string name, string address, string zipcode, string city, string iva, string cuit, string phone, string seller, string zone, string route, string custommerType, string activity, string branch, Nullable<decimal> balance, Nullable<long> idSeller)
@@ -560,6 +542,74 @@ namespace Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertCustomer", id_systemParameter, id_companyParameter, nameParameter, addressParameter, zipcodeParameter, cityParameter, ivaParameter, cuitParameter, phoneParameter, sellerParameter, zoneParameter, routeParameter, custommerTypeParameter, activityParameter, branchParameter, balanceParameter, idSellerParameter);
         }
     
+        public virtual ObjectResult<Nullable<long>> usp_insertLogin(string login, Nullable<long> id_company, string email, string password, string phone, Nullable<long> idCustomer, Nullable<long> seller)
+        {
+            var loginParameter = login != null ?
+                new ObjectParameter("login", login) :
+                new ObjectParameter("login", typeof(string));
+    
+            var id_companyParameter = id_company.HasValue ?
+                new ObjectParameter("id_company", id_company) :
+                new ObjectParameter("id_company", typeof(long));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("phone", phone) :
+                new ObjectParameter("phone", typeof(string));
+    
+            var idCustomerParameter = idCustomer.HasValue ?
+                new ObjectParameter("idCustomer", idCustomer) :
+                new ObjectParameter("idCustomer", typeof(long));
+    
+            var sellerParameter = seller.HasValue ?
+                new ObjectParameter("seller", seller) :
+                new ObjectParameter("seller", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("usp_insertLogin", loginParameter, id_companyParameter, emailParameter, passwordParameter, phoneParameter, idCustomerParameter, sellerParameter);
+        }
+    
+        public virtual ObjectResult<string> usp_InsertToken(Nullable<long> id_login)
+        {
+            var id_loginParameter = id_login.HasValue ?
+                new ObjectParameter("id_login", id_login) :
+                new ObjectParameter("id_login", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("usp_InsertToken", id_loginParameter);
+        }
+    
+        public virtual int usp_LinkUserRole(Nullable<long> loginId, Nullable<long> companyId, Nullable<long> roleId)
+        {
+            var loginIdParameter = loginId.HasValue ?
+                new ObjectParameter("LoginId", loginId) :
+                new ObjectParameter("LoginId", typeof(long));
+    
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyId", companyId) :
+                new ObjectParameter("CompanyId", typeof(long));
+    
+            var roleIdParameter = roleId.HasValue ?
+                new ObjectParameter("RoleId", roleId) :
+                new ObjectParameter("RoleId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_LinkUserRole", loginIdParameter, companyIdParameter, roleIdParameter);
+        }
+    
+        public virtual ObjectResult<usp_selectCustomer_Result> usp_selectCustomer(Nullable<long> id_company)
+        {
+            var id_companyParameter = id_company.HasValue ?
+                new ObjectParameter("id_company", id_company) :
+                new ObjectParameter("id_company", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_selectCustomer_Result>("usp_selectCustomer", id_companyParameter);
+        }
+    
         public virtual ObjectResult<usp_selectCustomerByUser_Result> usp_selectCustomerByUser(Nullable<long> id_user)
         {
             var id_userParameter = id_user.HasValue ?
@@ -569,71 +619,39 @@ namespace Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_selectCustomerByUser_Result>("usp_selectCustomerByUser", id_userParameter);
         }
     
-        public virtual ObjectResult<usp_GetAllOrders_Result> usp_GetAllOrders()
+        public virtual ObjectResult<Nullable<long>> usp_selectSellerNyIdLogin(Nullable<long> userId)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrders_Result>("usp_GetAllOrders");
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("usp_selectSellerNyIdLogin", userIdParameter);
         }
     
-        public virtual ObjectResult<usp_GetAllOrdersByCompany_Result> usp_GetAllOrdersByCompany(Nullable<long> id_company)
+        public virtual int usp_UnLinkUserRole(Nullable<long> loginId, Nullable<long> companyId, Nullable<long> roleId)
         {
-            var id_companyParameter = id_company.HasValue ?
-                new ObjectParameter("id_company", id_company) :
-                new ObjectParameter("id_company", typeof(long));
+            var loginIdParameter = loginId.HasValue ?
+                new ObjectParameter("LoginId", loginId) :
+                new ObjectParameter("LoginId", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByCompany_Result>("usp_GetAllOrdersByCompany", id_companyParameter);
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyId", companyId) :
+                new ObjectParameter("CompanyId", typeof(long));
+    
+            var roleIdParameter = roleId.HasValue ?
+                new ObjectParameter("RoleId", roleId) :
+                new ObjectParameter("RoleId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_UnLinkUserRole", loginIdParameter, companyIdParameter, roleIdParameter);
         }
     
-        public virtual ObjectResult<usp_GetAllOrdersByUser_Result> usp_GetAllOrdersByUser(Nullable<long> id_user)
+        public virtual ObjectResult<usp_GetReciptTypeByid_Result> usp_GetReciptTypeByid(Nullable<long> id)
         {
-            var id_userParameter = id_user.HasValue ?
-                new ObjectParameter("id_user", id_user) :
-                new ObjectParameter("id_user", typeof(long));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllOrdersByUser_Result>("usp_GetAllOrdersByUser", id_userParameter);
-        }
-    
-        public virtual ObjectResult<usp_GetSingleOrder_Result> usp_GetSingleOrder(Nullable<long> id_company, Nullable<long> id_order)
-        {
-            var id_companyParameter = id_company.HasValue ?
-                new ObjectParameter("id_company", id_company) :
-                new ObjectParameter("id_company", typeof(long));
-    
-            var id_orderParameter = id_order.HasValue ?
-                new ObjectParameter("id_order", id_order) :
-                new ObjectParameter("id_order", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetSingleOrder_Result>("usp_GetSingleOrder", id_companyParameter, id_orderParameter);
-        }
-    
-        public virtual int delete_log()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_log");
-        }
-    
-        public virtual int insert_log(string message, string stack, Nullable<long> iduser, Nullable<long> idcompany)
-        {
-            var messageParameter = message != null ?
-                new ObjectParameter("message", message) :
-                new ObjectParameter("message", typeof(string));
-    
-            var stackParameter = stack != null ?
-                new ObjectParameter("stack", stack) :
-                new ObjectParameter("stack", typeof(string));
-    
-            var iduserParameter = iduser.HasValue ?
-                new ObjectParameter("iduser", iduser) :
-                new ObjectParameter("iduser", typeof(long));
-    
-            var idcompanyParameter = idcompany.HasValue ?
-                new ObjectParameter("idcompany", idcompany) :
-                new ObjectParameter("idcompany", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_log", messageParameter, stackParameter, iduserParameter, idcompanyParameter);
-        }
-    
-        public virtual ObjectResult<getLog_Result> getLog()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getLog_Result>("getLog");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetReciptTypeByid_Result>("usp_GetReciptTypeByid", idParameter);
         }
     }
 }

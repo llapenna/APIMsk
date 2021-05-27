@@ -63,6 +63,7 @@
     <Compile Include="object_class\cls_order_detail.cs" />
     <Compile Include="object_class\cls_order_header.cs" />
     <Compile Include="object_class\cls_price.cs" />
+    <Compile Include="object_class\cls_receipt_type.cs" />
     <Compile Include="object_class\cls_rol.cs" />
     <Compile Include="object_class\cls_section.cs" />
     <Compile Include="object_class\cls_temporalUpdatePedido.cs" />

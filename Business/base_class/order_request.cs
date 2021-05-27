@@ -26,6 +26,7 @@ namespace Business.base_class
         long orderId;
         string observation;
         decimal discount;
+        long receipt_type;
 
 
         public long IdCustomer { get => idClient; set => idClient = value; }
@@ -33,5 +34,6 @@ namespace Business.base_class
         public long OrderId { get => orderId; set => orderId = value; }
         public string Observation { get => observation; set => observation = value; }
         public decimal Discount { get => discount; set => discount = value; }
+        public long Receipt_type { get => receipt_type; set => receipt_type = value; }
     }
 }

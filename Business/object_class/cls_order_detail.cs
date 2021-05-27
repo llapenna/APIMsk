@@ -23,7 +23,7 @@ namespace Business.object_class
         decimal avgWeight;
         cls_unitOfMeasurement measurement_unit;
 
-        public long IdComodity { get => idComodity; set => idComodity = value; }
+        public long IdCommodity { get => idComodity; set => idComodity = value; }
         public decimal Amount { get => amount; set => amount = value; }
         public decimal Price { get => price; set => price = value; }
         public long IdHeader { get => idHeader; set => idHeader = value; }
@@ -39,7 +39,7 @@ namespace Business.object_class
         public cls_order_detail(long par_idUnit, long par_idCompany,long par_idHeader, long par_idComodity, decimal par_amount, decimal par_price, bool par_nounit) 
         {
             idHeader = par_idHeader;
-            IdComodity = par_idComodity;
+            IdCommodity = par_idComodity;
             amount = par_amount;
             price = par_price;
             idCompany = par_idCompany;
@@ -113,7 +113,7 @@ namespace Business.object_class
         public void save() 
         {
             MSKEntities msk = Data.singleton.cls_static_MksModel.GetEntity();
-            msk.ups_InsertOrderDetail(idCompany, IdHeader,IdComodity, Amount, idUnit ,price,noUnit);
+            msk.ups_InsertOrderDetail(idCompany, IdHeader,IdCommodity, Amount, idUnit ,price,noUnit);
         }
 
     }

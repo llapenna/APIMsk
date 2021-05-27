@@ -21,5 +21,6 @@ namespace Data
         public Nullable<long> IDCOMPANY { get; set; }
         public Nullable<decimal> DISCOUNT { get; set; }
         public string OBSERVATIONS { get; set; }
+        public Nullable<long> RECEIPTTYPE { get; set; }
     }
 }

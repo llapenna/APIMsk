@@ -11,15 +11,9 @@ namespace Data
 {
     using System;
     
-    public partial class usp_GetSingleOrder_Result
+    public partial class usp_GetReceiptType_Result
     {
-        public long ID { get; set; }
-        public System.DateTime DATETIME { get; set; }
-        public Nullable<decimal> DISCOUNT { get; set; }
-        public string OBSERVATIONS { get; set; }
-        public Nullable<long> RECEIPTTYPE { get; set; }
-        public string CUSTOMER { get; set; }
-        public Nullable<long> CUSTOMERID { get; set; }
-        public string CUSTOMERCUIT { get; set; }
+        public long id { get; set; }
+        public string name { get; set; }
     }
 }

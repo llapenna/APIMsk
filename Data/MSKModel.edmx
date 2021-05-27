@@ -61,6 +61,7 @@
           <Parameter Name="id_company" Type="bigint" Mode="In" />
           <Parameter Name="observations" Type="varchar(max)" Mode="In" />
           <Parameter Name="discount" Type="decimal" Mode="In" />
+          <Parameter Name="receipt_type" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_CheckLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="user" Type="varchar" Mode="In" />
@@ -108,6 +109,10 @@
         </Function>
         <Function Name="usp_GetOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_user" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetReceiptType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_GetReciptTypeByid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_GetRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idCompany" Type="bigint" Mode="In" />
@@ -194,9 +199,17 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MSKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MSKEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="delete_log" />
+          <FunctionImport Name="getLog" ReturnType="Collection(MSKModel.getLog_Result)" />
           <FunctionImport Name="GetSections" ReturnType="Collection(MSKModel.GetSections_Result)" />
           <FunctionImport Name="GetUserModules" ReturnType="Collection(MSKModel.GetUserModules_Result)">
           <Parameter Name="UserId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="insert_log">
+            <Parameter Name="message" Mode="In" Type="String" />
+            <Parameter Name="stack" Mode="In" Type="String" />
+            <Parameter Name="iduser" Mode="In" Type="Int64" />
+            <Parameter Name="idcompany" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="InsertPrice">
             <Parameter Name="iid_comodity" Mode="In" Type="Int64" />
@@ -239,6 +252,7 @@
             <Parameter Name="id_company" Mode="In" Type="Int64" />
             <Parameter Name="observations" Mode="In" Type="String" />
             <Parameter Name="discount" Mode="In" Type="Decimal" />
+            <Parameter Name="receipt_type" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_CheckLogin" ReturnType="Collection(Boolean)">
             <Parameter Name="user" Mode="In" Type="String" />
@@ -253,6 +267,13 @@
           <FunctionImport Name="usp_GetAllLogin" ReturnType="Collection(MSKModel.usp_GetAllLogin_Result)" />
           <FunctionImport Name="usp_GetAllLogins" ReturnType="Collection(MSKModel.usp_GetAllLogins_Result)">
           <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetAllOrders" ReturnType="Collection(MSKModel.usp_GetAllOrders_Result)" />
+          <FunctionImport Name="usp_GetAllOrdersByCompany" ReturnType="Collection(MSKModel.usp_GetAllOrdersByCompany_Result)">
+          <Parameter Name="id_company" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetAllOrdersByUser" ReturnType="Collection(MSKModel.usp_GetAllOrdersByUser_Result)">
+          <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_GetCustomerBySystemID" ReturnType="Collection(MSKModel.usp_GetCustomerBySystemID_Result)">
           <Parameter Name="SystemId" Mode="In" Type="Int64" />
@@ -277,9 +298,10 @@
           <FunctionImport Name="usp_GetOrderDetailByOrderId" ReturnType="Collection(MSKModel.usp_GetOrderDetailByOrderId_Result)">
           <Parameter Name="id_order" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="usp_GetOrders">
+          <FunctionImport Name="usp_GetOrders" ReturnType="Collection(MSKModel.usp_GetOrders_Result)">
           <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="usp_GetReceiptType" ReturnType="Collection(MSKModel.usp_GetReceiptType_Result)" />
           <FunctionImport Name="usp_GetRoles" ReturnType="Collection(MSKModel.usp_GetRoles_Result)">
           <Parameter Name="idCompany" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -293,6 +315,10 @@
           <FunctionImport Name="usp_GetSectionByIdModule" ReturnType="Collection(MSKModel.usp_GetSectionByIdModule_Result)">
           <Parameter Name="idModule" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="usp_GetSingleOrder" ReturnType="Collection(MSKModel.usp_GetSingleOrder_Result)">
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="id_order" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="usp_GetUnitByIdComodity" ReturnType="Collection(MSKModel.usp_GetUnitByIdComodity_Result)">
           <Parameter Name="idComodity" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -304,6 +330,25 @@
             <Parameter Name="heading" Mode="In" Type="String" />
             <Parameter Name="unit_of_meassure" Mode="In" Type="String" />
             <Parameter Name="average_weight" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertCustomer">
+            <Parameter Name="id_system" Mode="In" Type="Int64" />
+            <Parameter Name="id_company" Mode="In" Type="Int64" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="address" Mode="In" Type="String" />
+            <Parameter Name="zipcode" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="iva" Mode="In" Type="String" />
+            <Parameter Name="cuit" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="seller" Mode="In" Type="String" />
+            <Parameter Name="zone" Mode="In" Type="String" />
+            <Parameter Name="route" Mode="In" Type="String" />
+            <Parameter Name="custommerType" Mode="In" Type="String" />
+            <Parameter Name="activity" Mode="In" Type="String" />
+            <Parameter Name="branch" Mode="In" Type="String" />
+            <Parameter Name="balance" Mode="In" Type="Decimal" />
+            <Parameter Name="idSeller" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_insertLogin" ReturnType="Collection(Int64)">
             <Parameter Name="login" Mode="In" Type="String" />
@@ -325,6 +370,9 @@
           <FunctionImport Name="usp_selectCustomer" ReturnType="Collection(MSKModel.usp_selectCustomer_Result)">
           <Parameter Name="id_company" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="usp_selectCustomerByUser" ReturnType="Collection(MSKModel.usp_selectCustomerByUser_Result)">
+          <Parameter Name="id_user" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="usp_selectSellerNyIdLogin" ReturnType="Collection(Int64)">
           <Parameter Name="UserId" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -333,48 +381,18 @@
             <Parameter Name="CompanyId" Mode="In" Type="Int64" />
             <Parameter Name="RoleId" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="usp_InsertCustomer">
-            <Parameter Name="id_system" Mode="In" Type="Int64" />
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="address" Mode="In" Type="String" />
-            <Parameter Name="zipcode" Mode="In" Type="String" />
-            <Parameter Name="city" Mode="In" Type="String" />
-            <Parameter Name="iva" Mode="In" Type="String" />
-            <Parameter Name="cuit" Mode="In" Type="String" />
-            <Parameter Name="phone" Mode="In" Type="String" />
-            <Parameter Name="seller" Mode="In" Type="String" />
-            <Parameter Name="zone" Mode="In" Type="String" />
-            <Parameter Name="route" Mode="In" Type="String" />
-            <Parameter Name="custommerType" Mode="In" Type="String" />
-            <Parameter Name="activity" Mode="In" Type="String" />
-            <Parameter Name="branch" Mode="In" Type="String" />
-            <Parameter Name="balance" Mode="In" Type="Decimal" />
-            <Parameter Name="idSeller" Mode="In" Type="Int64" />
+          <FunctionImport Name="usp_GetReciptTypeByid" ReturnType="Collection(MSKModel.usp_GetReciptTypeByid_Result)">
+            <Parameter Name="id" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="usp_selectCustomerByUser" ReturnType="Collection(MSKModel.usp_selectCustomerByUser_Result)">
-          <Parameter Name="id_user" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_GetAllOrders" ReturnType="Collection(MSKModel.usp_GetAllOrders_Result)" />
-          <FunctionImport Name="usp_GetAllOrdersByCompany" ReturnType="Collection(MSKModel.usp_GetAllOrdersByCompany_Result)">
-          <Parameter Name="id_company" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_GetAllOrdersByUser" ReturnType="Collection(MSKModel.usp_GetAllOrdersByUser_Result)">
-          <Parameter Name="id_user" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="usp_GetSingleOrder" ReturnType="Collection(MSKModel.usp_GetSingleOrder_Result)">
-            <Parameter Name="id_company" Mode="In" Type="Int64" />
-            <Parameter Name="id_order" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="delete_log" />
-          <FunctionImport Name="insert_log">
-            <Parameter Name="message" Mode="In" Type="String" />
-            <Parameter Name="stack" Mode="In" Type="String" />
-            <Parameter Name="iduser" Mode="In" Type="Int64" />
-            <Parameter Name="idcompany" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="getLog" ReturnType="Collection(MSKModel.getLog_Result)" />
         </EntityContainer>
+        <ComplexType Name="getLog_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="Message" Nullable="false" />
+          <Property Type="String" Name="Stack" Nullable="false" />
+          <Property Type="DateTime" Name="datetime" Nullable="false" Precision="23" />
+          <Property Type="Int64" Name="id_user" Nullable="false" />
+          <Property Type="Int64" Name="id_company" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="GetSections_Result">
           <Property Type="Int64" Name="SECTIONID" Nullable="false" />
           <Property Type="String" Name="SECTIONNAME" Nullable="false" MaxLength="50" />
@@ -417,6 +435,38 @@
           <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="EMAIL" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="PHONE" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="usp_GetAllOrders_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
+          <Property Type="Int64" Name="IDCOMPANY" Nullable="true" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
+          <Property Type="Int64" Name="RECEIPTTYPE" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetAllOrdersByCompany_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
+          <Property Type="Int64" Name="IDCOMPANY" Nullable="true" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
+          <Property Type="Int64" Name="RECEIPTTYPE" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetAllOrdersByUser_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
+          <Property Type="Int64" Name="RECEIPTTYEPE" Nullable="true" />
         </ComplexType>
         <ComplexType Name="usp_GetCustomerBySystemID_Result">
           <Property Type="Int64" Name="id" Nullable="false" />
@@ -486,6 +536,22 @@
           <Property Type="Boolean" Name="NOUNIT" Nullable="true" />
           <Property Type="String" Name="UNIT" Nullable="true" MaxLength="20" />
         </ComplexType>
+        <ComplexType Name="usp_GetOrders_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
+          <Property Type="Decimal" Name="DISCOUNT1" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="OBSERVATIONS1" Nullable="true" />
+          <Property Type="Int64" Name="RECEIPTTYPE" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_GetReceiptType_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="usp_GetRoles_Result">
           <Property Type="Int64" Name="ID" Nullable="false" />
           <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
@@ -501,6 +567,16 @@
         <ComplexType Name="usp_GetSectionByIdModule_Result">
           <Property Type="Int64" Name="id" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="usp_GetSingleOrder_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
+          <Property Type="Int64" Name="RECEIPTTYPE" Nullable="true" />
+          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="CUSTOMERID" Nullable="true" />
+          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="usp_GetUnitByIdComodity_Result">
           <Property Type="Int64" Name="Id" Nullable="false" />
@@ -545,51 +621,9 @@
           <Property Type="String" Name="ACTIVITY" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="BRANCH" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="usp_GetAllOrders_Result">
-          <Property Type="Int64" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
-          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
-          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
-          <Property Type="Int64" Name="IDCOMPANY" Nullable="true" />
-          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="usp_GetAllOrdersByCompany_Result">
-          <Property Type="Int64" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
-          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
-          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
-          <Property Type="Int64" Name="IDCOMPANY" Nullable="true" />
-          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="usp_GetAllOrdersByUser_Result">
-          <Property Type="Int64" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
-          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
-          <Property Type="Int64" Name="CUSTOMERINTERNALID" Nullable="true" />
-          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="usp_GetSingleOrder_Result">
-          <Property Type="Int64" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="DATETIME" Nullable="false" Precision="23" />
-          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="OBSERVATIONS" Nullable="true" />
-          <Property Type="String" Name="CUSTOMER" Nullable="true" MaxLength="100" />
-          <Property Type="Int64" Name="CUSTOMERID" Nullable="true" />
-          <Property Type="String" Name="CUSTOMERCUIT" Nullable="true" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="getLog_Result">
+        <ComplexType Name="usp_GetReciptTypeByid_Result">
           <Property Type="Int64" Name="id" Nullable="false" />
-          <Property Type="String" Name="Message" Nullable="false" />
-          <Property Type="String" Name="Stack" Nullable="false" />
-          <Property Type="DateTime" Name="datetime" Nullable="false" Precision="23" />
-          <Property Type="Int64" Name="id_user" Nullable="false" />
-          <Property Type="Int64" Name="id_company" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -597,6 +631,19 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MSKModelStoreContainer" CdmEntityContainer="MSKEntities" >
+          <FunctionImportMapping FunctionImportName="delete_log" FunctionName="MSKModel.Store.delete_log" />
+          <FunctionImportMapping FunctionImportName="getLog" FunctionName="MSKModel.Store.getLog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.getLog_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Stack" ColumnName="Stack" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id_company" ColumnName="id_company" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetSections" FunctionName="MSKModel.Store.GetSections">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MSKModel.GetSections_Result">
@@ -617,6 +664,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insert_log" FunctionName="MSKModel.Store.insert_log" />
           <FunctionImportMapping FunctionImportName="InsertPrice" FunctionName="MSKModel.Store.InsertPrice" />
           <FunctionImportMapping FunctionImportName="SelectIdCompanyByCUIT" FunctionName="MSKModel.Store.SelectIdCompanyByCUIT" />
           <FunctionImportMapping FunctionImportName="TransmitOrder" FunctionName="MSKModel.Store.TransmitOrder" />
@@ -667,6 +715,50 @@
                 <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
                 <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetAllOrders" FunctionName="MSKModel.Store.usp_GetAllOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrders_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
+                <ScalarProperty Name="IDCOMPANY" ColumnName="IDCOMPANY" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
+                <ScalarProperty Name="RECEIPTTYPE" ColumnName="RECEIPTTYPE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetAllOrdersByCompany" FunctionName="MSKModel.Store.usp_GetAllOrdersByCompany">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrdersByCompany_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
+                <ScalarProperty Name="IDCOMPANY" ColumnName="IDCOMPANY" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
+                <ScalarProperty Name="RECEIPTTYPE" ColumnName="RECEIPTTYPE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetAllOrdersByUser" FunctionName="MSKModel.Store.usp_GetAllOrdersByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrdersByUser_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
+                <ScalarProperty Name="RECEIPTTYEPE" ColumnName="RECEIPTTYEPE" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -761,6 +853,28 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_GetOrders" FunctionName="MSKModel.Store.usp_GetOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetOrders_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
+                <ScalarProperty Name="DISCOUNT1" ColumnName="DISCOUNT1" />
+                <ScalarProperty Name="OBSERVATIONS1" ColumnName="OBSERVATIONS1" />
+                <ScalarProperty Name="RECEIPTTYPE" ColumnName="RECEIPTTYPE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetReceiptType" FunctionName="MSKModel.Store.usp_GetReceiptType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetReceiptType_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_GetRoles" FunctionName="MSKModel.Store.usp_GetRoles">
             <ResultMapping>
@@ -794,6 +908,20 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetSingleOrder" FunctionName="MSKModel.Store.usp_GetSingleOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetSingleOrder_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
+                <ScalarProperty Name="RECEIPTTYPE" ColumnName="RECEIPTTYPE" />
+                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
+                <ScalarProperty Name="CUSTOMERID" ColumnName="CUSTOMERID" />
+                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_GetUnitByIdComodity" FunctionName="MSKModel.Store.usp_GetUnitByIdComodity">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MSKModel.usp_GetUnitByIdComodity_Result">
@@ -804,6 +932,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_InsertCommodity" FunctionName="MSKModel.Store.usp_InsertCommodity" />
+          <FunctionImportMapping FunctionImportName="usp_InsertCustomer" FunctionName="MSKModel.Store.usp_InsertCustomer" />
           <FunctionImportMapping FunctionImportName="usp_insertLogin" FunctionName="MSKModel.Store.usp_insertLogin" />
           <FunctionImportMapping FunctionImportName="usp_InsertToken" FunctionName="MSKModel.Store.usp_InsertToken" />
           <FunctionImportMapping FunctionImportName="usp_LinkUserRole" FunctionName="MSKModel.Store.usp_LinkUserRole" />
@@ -830,9 +959,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_selectSellerNyIdLogin" FunctionName="MSKModel.Store.usp_selectSellerNyIdLogin" />
-          <FunctionImportMapping FunctionImportName="usp_UnLinkUserRole" FunctionName="MSKModel.Store.usp_UnLinkUserRole" />
-          <FunctionImportMapping FunctionImportName="usp_InsertCustomer" FunctionName="MSKModel.Store.usp_InsertCustomer" />
           <FunctionImportMapping FunctionImportName="usp_selectCustomerByUser" FunctionName="MSKModel.Store.usp_selectCustomerByUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MSKModel.usp_selectCustomerByUser_Result">
@@ -856,71 +982,13 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_GetAllOrders" FunctionName="MSKModel.Store.usp_GetAllOrders">
+          <FunctionImportMapping FunctionImportName="usp_selectSellerNyIdLogin" FunctionName="MSKModel.Store.usp_selectSellerNyIdLogin" />
+          <FunctionImportMapping FunctionImportName="usp_UnLinkUserRole" FunctionName="MSKModel.Store.usp_UnLinkUserRole" />
+          <FunctionImportMapping FunctionImportName="usp_GetReciptTypeByid" FunctionName="MSKModel.Store.usp_GetReciptTypeByid">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrders_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
-                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
-                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
-                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
-                <ScalarProperty Name="IDCOMPANY" ColumnName="IDCOMPANY" />
-                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_GetAllOrdersByCompany" FunctionName="MSKModel.Store.usp_GetAllOrdersByCompany">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrdersByCompany_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
-                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
-                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
-                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
-                <ScalarProperty Name="IDCOMPANY" ColumnName="IDCOMPANY" />
-                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_GetAllOrdersByUser" FunctionName="MSKModel.Store.usp_GetAllOrdersByUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MSKModel.usp_GetAllOrdersByUser_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
-                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
-                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
-                <ScalarProperty Name="CUSTOMERINTERNALID" ColumnName="CUSTOMERINTERNALID" />
-                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_GetSingleOrder" FunctionName="MSKModel.Store.usp_GetSingleOrder">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MSKModel.usp_GetSingleOrder_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
-                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-                <ScalarProperty Name="OBSERVATIONS" ColumnName="OBSERVATIONS" />
-                <ScalarProperty Name="CUSTOMER" ColumnName="CUSTOMER" />
-                <ScalarProperty Name="CUSTOMERID" ColumnName="CUSTOMERID" />
-                <ScalarProperty Name="CUSTOMERCUIT" ColumnName="CUSTOMERCUIT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="delete_log" FunctionName="MSKModel.Store.delete_log" />
-          <FunctionImportMapping FunctionImportName="insert_log" FunctionName="MSKModel.Store.insert_log" />
-          <FunctionImportMapping FunctionImportName="getLog" FunctionName="MSKModel.Store.getLog">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MSKModel.getLog_Result">
+              <ComplexTypeMapping TypeName="MSKModel.usp_GetReciptTypeByid_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Stack" ColumnName="Stack" />
-                <ScalarProperty Name="datetime" ColumnName="datetime" />
-                <ScalarProperty Name="id_user" ColumnName="id_user" />
-                <ScalarProperty Name="id_company" ColumnName="id_company" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

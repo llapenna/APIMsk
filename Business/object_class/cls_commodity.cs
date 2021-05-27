@@ -150,6 +150,7 @@ namespace Business.object_class
                     }
                     catch (Exception exc) 
                     {
+
                         r.Debug.Add("Fuera de rango");
                         
                         break;
