@@ -42,6 +42,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e)
             {
+                log.insertLog(e, 0, 0);
                 return InternalServerError(e);
             }
         }

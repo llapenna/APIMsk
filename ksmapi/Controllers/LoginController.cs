@@ -34,6 +34,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e)
             {
+                log.insertLog(e, 0, 0);
                 return InternalServerError(e);
             }
         }
@@ -56,6 +57,7 @@ namespace ksmapi.Controllers
                     }
                     catch (Exception e)
                     {
+                        log.insertLog(e, 0, 0);
                         filter_paged_response fpr = new filter_paged_response();
                         fpr.Debug.Add(e.Message);
                         fpr.Debug.Add(e.StackTrace);
@@ -71,6 +73,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e) 
             {
+                log.insertLog(e, 0, 0);
                 filter_paged_response fpr = new filter_paged_response();
                 fpr.Debug.Add(e.Message);
                 fpr.Debug.Add(e.StackTrace);
@@ -97,6 +100,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e)
             {
+                log.insertLog(e, 0, 0);
                 return InternalServerError(e);
             }
         }
@@ -119,6 +123,7 @@ namespace ksmapi.Controllers
             }
             catch (Exception e)
             {
+                log.insertLog(e, 0, 0);
                 return InternalServerError(e);
             }
 

@@ -11,7 +11,14 @@ CREATE TABLE [dbo].[logs](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-CREATE PROCEDURE insert_log
+CREATE OR ALTER PROCEDURE getLog
+as
+begin
+select * from logs order by id desc
+end
+go
+
+CREATE OR ALTER PROCEDURE insert_log
 @message varchar(max),
 @stack varchar(max),
 @iduser bigint,
@@ -22,7 +29,7 @@ insert into logs(Message ,Stack ,datetime ,id_user,id_company) values
 				(@message,@stack,GETDATE(),@iduser,@idcompany)
 end
 GO
-CREATE PROCEDURE delete_log
+CREATE OR ALTER PROCEDURE delete_log
 as
 begin
 delete logs
