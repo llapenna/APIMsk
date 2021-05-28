@@ -68,8 +68,8 @@ namespace ksmapi.Controllers
 
                         foreach (cls_temporalUpdatePedidoDetail det in r.Detail)
                         {
-                            decimal priceparsing;
-                            oh.InsertDetail(det.Id, decimal.TryParse(det.Sellcant, out priceparsing) == true ? priceparsing : 0, det.Precio, det.Nounit);
+                            decimal amount;
+                            oh.InsertDetail(det.Id, decimal.TryParse(det.Sellcant, out amount) == true ? amount : 0, det.Precio, det.Nounit);
                         }
                         oh.Save();
                         cls_order_header.deleteOrder(r.OrderId);
